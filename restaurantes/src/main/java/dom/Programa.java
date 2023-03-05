@@ -8,7 +8,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 
-import java.io.FileReader;
 import java.io.InputStreamReader;
 
 import javax.json.Json;
@@ -56,10 +55,12 @@ public class Programa {
                 String wikipediaString3 = "http://es.dbpedia.org/resource/"
                         + titulo.replace(" ", "_");
                 System.out.println(wikipediaString3);
-
                 JsonObject objJSON = obj.getJsonObject(wikipediaString3);
-                JsonArray propiedad = objJSON.getJsonArray("http://dbpedia.org/ontology/abstract");
+
+                String resumenProperty = "http://dbpedia.org/ontology/abstract";
+                JsonArray propiedad = objJSON.getJsonArray(resumenProperty);
                 if(propiedad != null){
+                    System.out.println("-------- " + resumenProperty + " --------");
                     for (JsonObject info : propiedad.getValuesAs(JsonObject.class)) { 
                 
                         if (info.containsKey("type"))
@@ -71,6 +72,55 @@ public class Programa {
                     
                     }
                 }
+
+                String categoriaProperty = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+                propiedad = objJSON.getJsonArray(categoriaProperty);
+                if(propiedad != null){
+                    System.out.println("-------- " + categoriaProperty + " --------");
+                    for (JsonObject info : propiedad.getValuesAs(JsonObject.class)) { 
+                
+                        if (info.containsKey("type"))
+                        System.out.println("Type: " + info.getString("type"));
+        
+                        if (info.containsKey("value"))
+                            System.out.println("Value: " + info.getString("value"));
+                    
+                    
+                    }
+                }
+
+                String externalLinkProperty = "http://dbpedia.org/ontology/wikiPageExternalLink";
+                propiedad = objJSON.getJsonArray(externalLinkProperty);
+                if(propiedad != null){
+                    System.out.println("-------- " + externalLinkProperty + " --------");
+                    for (JsonObject info : propiedad.getValuesAs(JsonObject.class)) { 
+                
+                        if (info.containsKey("type"))
+                        System.out.println("Type: " + info.getString("type"));
+        
+                        if (info.containsKey("value"))
+                            System.out.println("Value: " + info.getString("value"));
+                    
+                    
+                    }
+                }
+
+                String imagenProperty = "http://es.dbpedia.org/property/imagen";
+                propiedad = objJSON.getJsonArray(imagenProperty);
+                if(propiedad != null){
+                    System.out.println("-------- " + imagenProperty + " --------");
+                    for (JsonObject info : propiedad.getValuesAs(JsonObject.class)) { 
+                
+                        if (info.containsKey("type"))
+                        System.out.println("Type: " + info.getString("type"));
+        
+                        if (info.containsKey("value"))
+                            System.out.println("Value: " + info.getString("value"));
+                    
+                    
+                    }
+                }
+
 
             }
         }
