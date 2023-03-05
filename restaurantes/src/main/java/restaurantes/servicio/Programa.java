@@ -1,4 +1,4 @@
-package dom;
+package restaurantes.servicio;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
