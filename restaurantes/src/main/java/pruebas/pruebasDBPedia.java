@@ -1,12 +1,4 @@
-package restaurantes.servicio;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
+package pruebas;
 
 import java.io.InputStreamReader;
 
@@ -14,10 +6,16 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-public class Programa {
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-    public static String getUrlByPostalCode(String postalCode) {
+public class pruebasDBPedia {
+	public static String getUrlByPostalCode(String postalCode) {
         String url = "http://api.geonames.org/findNearbyWikipedia?postalcode=" + postalCode
                 + "&country=ES&radius=10&username=arso&lang=es";
         return url;
