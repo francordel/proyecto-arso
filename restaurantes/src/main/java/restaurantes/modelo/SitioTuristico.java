@@ -1,12 +1,13 @@
 package restaurantes.modelo;
 
 import java.util.List;
-
+import java.util.LinkedList;
 public class SitioTuristico {
     private String titulo;
+    private String id;
     private String resumen;
-    private List<String> categorias;
-    private List<String> enlacesExternos;
+    private List<String> categorias = new LinkedList<String>();
+    private List<String> enlacesExternos = new LinkedList<String>();
     private String imagen;
 
     public String getTitulo() {
@@ -16,6 +17,11 @@ public class SitioTuristico {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+    public String getId() {
+        return id;
+    }
+
 
     public String getResumen() {
         return resumen;

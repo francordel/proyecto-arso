@@ -7,15 +7,12 @@ public class Restaurante {
     private String id;
     private String nombre;
     private String coordenadas;
-    private List<SitioTuristico> sitio = new LinkedList<>();
+    private List<SitioTuristico> sitios = new LinkedList<SitioTuristico>();
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -33,16 +30,16 @@ public class Restaurante {
         this.coordenadas = coordenadas;
     }
 
-    public List<SitioTuristico> getSitio() {
-        return sitio;
+    public List<SitioTuristico> getSitios() {
+        return sitios;
     }
 
-    public void setSitio(List<SitioTuristico> sitio) {
-        this.sitio = sitio;
+    public void setSitios(List<SitioTuristico> sitios) {
+        this.sitios = sitios;
     }
-    
+
 	@Override
 	public String toString() {
-		return "Restaurante [id=" + id + ", nombre=" + nombre + ", coordenadas=" + coordenadas + ", sitios turisticos=" + sitio + "]";
+		return "Restaurante [id=" + id + ", nombre=" + nombre + ", coordenadas=" + coordenadas + ", sitios=" + sitios + "]";
 	}
 }

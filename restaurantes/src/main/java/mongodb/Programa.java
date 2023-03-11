@@ -13,6 +13,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import restaurantes.modelo.Restaurante;
+import restaurantes.modelo.SitioTuristico;
 
 public class Programa {
 	public static void main(String[] args) {
@@ -25,13 +26,43 @@ public class Programa {
 				.applyConnectionString(connectionString)
 				.codecRegistry(codecRegistry)
 				.serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
+
 		MongoClient mongoClient = MongoClients.create(settings);
+
 		MongoDatabase database = mongoClient.getDatabase("test");
+
 
 		System.out.println(database.getName());
 
 		MongoCollection<Restaurante> restaurantes = database.getCollection("restaurantes", Restaurante.class);
+		MongoCollection<SitioTuristico> sitiosTuristicos = database.getCollection("sitiosturisticos", SitioTuristico.class);
 
+		Restaurante restaurante = new Restaurante();
+
+		restaurante.setNombre("El restaurante de la esquina");
+
+
+		for(int i=0; i<3; i++) {
+			SitioTuristico sitio = new SitioTuristico();
+			sitio.setTitulo("Altorreal"+i);
+			sitio.setResumen("Morada del rey Pablo X el Sabio");
+			sitio.setImagen("https://www.elperiodico.com/es/imagenes/2019/05/14/actualidad/1557840000_000000_1557840000_noticia_normal.jpg");
+			for(int j = 0; j<3; j++) {
+				sitio.getEnlacesExternos().add("https://www.misintaxis.com"+j);
+			}
+			sitiosTuristicos.insertOne(sitio);
+			System.out.println("Sitio Id asignado: " + sitio.getId());
+
+			restaurante.getSitios().add(sitio);
+		}
+
+		restaurantes.insertOne(restaurante);
+		System.out.println("Restaurante Id asignado: " + restaurante.getId());
+
+		for (Restaurante restaurante1: restaurantes.find()) {
+            	
+			System.out.println(restaurante1);
+		}
 		System.out.println("Fin.");
 
 	}
