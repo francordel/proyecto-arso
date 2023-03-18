@@ -3,10 +3,14 @@ package restaurantes.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 public class Restaurante {
+    @BsonProperty("_id")
     private String id;
     private String nombre;
     private String coordenadas;
+    private String codigoPostal;
     private List<SitioTuristico> sitios = new LinkedList<SitioTuristico>();
 
     public String getId() {
@@ -29,8 +33,19 @@ public class Restaurante {
     public void setCoordenadas(String coordenadas) {
         this.coordenadas = coordenadas;
     }
+        
+    
+    public String getCodigoPostal() {
+		return codigoPostal;
+	}
 
-    public List<SitioTuristico> getSitios() {
+
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
+	}
+
+
+	public List<SitioTuristico> getSitios() {
         return sitios;
     }
 

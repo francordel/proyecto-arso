@@ -35,6 +35,8 @@ public class pruebasDBPedia {
         NodeList elementos = documento.getElementsByTagName("entry");
 
         for (int i = 0; i < elementos.getLength(); i++) {
+            System.out.println("-------- SITIO TURISTICO --------");
+
             Node elemento = elementos.item(i);
 
             if (elemento.getNodeType() == Node.ELEMENT_NODE) {
@@ -114,8 +116,7 @@ public class pruebasDBPedia {
                         System.out.println("Type: " + info.getString("type"));
         
                         if (info.containsKey("value"))
-                            System.out.println("Value: " + info.getString("value"));
-                    
+                            System.out.println("Value: " + info.getString("value").replace(" ", "_"));
                     
                     }
                 }
