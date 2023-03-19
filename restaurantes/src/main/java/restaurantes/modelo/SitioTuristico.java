@@ -1,15 +1,22 @@
 package restaurantes.modelo;
 
 import java.util.List;
+
+import org.bson.types.ObjectId;
+
 import java.util.LinkedList;
 public class SitioTuristico {
-    private String titulo;
-    private String id;
+    private ObjectId  id;
+	private String titulo;
     private String resumen;
     private List<String> categorias = new LinkedList<String>();
     private List<String> enlacesExternos = new LinkedList<String>();
-    private String imagen;
+    private List<String> imagen = new LinkedList<String>();
 
+    public ObjectId getId() {
+        return id;
+    }
+    
     public String getTitulo() {
         return titulo;
     }
@@ -17,12 +24,7 @@ public class SitioTuristico {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-
-    public String getId() {
-        return id;
-    }
-
-
+ 
     public String getResumen() {
         return resumen;
     }
@@ -47,11 +49,11 @@ public class SitioTuristico {
         this.enlacesExternos = enlacesExternos;
     }
     
-    public String getImagen() {
+    public List<String> getImagenes() {
         return imagen;
     }
     
-    public void setImagen(String imagen) {
+    public void setImagenes(List<String> imagen) {
         this.imagen = imagen;
     }
 
