@@ -26,7 +26,7 @@ public class RepositorioMemoria<T extends Identificable> implements RepositorioS
 		if (! this.entidades.containsKey(entity.getId()))
 			throw new EntidadNoEncontrada(entity.getId() + " no existe en el repositorio");
 		
-		this.entidades.put(entity.getId(), entity);
+		this.entidades.put(entity.getId().toString(), entity);
 	}
 
 	@Override

@@ -18,3 +18,6 @@ La clase `RepositorioMemoria` va a implementar la interfaz **RepositorioString**
 Esta clase nos va a permitir persistir en local una entidad, concretamente usando como estructura de datos un *HashMap* 
 * * *
 La clase `FactoriaRepositorios` nos da una abstracción de los repositorios de cada entidad. Tendremos un **repositorio** por **entidad** y para obtener su repositorio para trabajar con él cuando queramos hacer uso de la persistencia lo obtendremos a partir de la llamada a su método `getRepositorio`
+
+##Servicios
+El paquete servicios
