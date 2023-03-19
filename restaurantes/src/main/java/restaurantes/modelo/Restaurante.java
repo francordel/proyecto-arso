@@ -7,7 +7,9 @@ import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
-public class Restaurante {
+import repositorio.Identificable;
+
+public class Restaurante implements Identificable{
 
     private ObjectId  id;
     private String nombre;
@@ -19,7 +21,11 @@ public class Restaurante {
         return id;
     }
 
-
+	@Override
+	public void setId(String id) {
+		// TODO Auto-generated method stub
+		
+	}
     public String getNombre() {
         return nombre;
     }
@@ -59,4 +65,7 @@ public class Restaurante {
 	public String toString() {
 		return "Restaurante [id=" + id + ", nombre=" + nombre + ", codigo postal="+codigoPostal+", coordenadas=" + coordenadas + ", sitios=" + sitios + "]";
 	}
+
+
+
 }
