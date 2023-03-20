@@ -36,6 +36,7 @@ import restaurantes.modelo.SitioTuristico;
 
 public class pruebaMongoDByDBPedia {
 	public static String getUrlByPostalCode(String postalCode) {
+		//Cambiar y buscar por coordendas
         String url = "http://api.geonames.org/findNearbyWikipedia?postalcode=" + postalCode
                 + "&country=ES&radius=10&username=arso&lang=es";
         return url;
