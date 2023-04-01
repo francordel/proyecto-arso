@@ -3,17 +3,30 @@ package restaurantes.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Restaurante {
-    private String id;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
+import repositorio.Identificable;
+
+public class Restaurante implements Identificable{
+
+    private ObjectId  id;
     private String nombre;
     private String coordenadas;
+    private String codigoPostal;
+    private List<Plato> platos = new LinkedList<Plato>();
     private List<SitioTuristico> sitios = new LinkedList<SitioTuristico>();
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-
+	@Override
+	public void setId(String id) {
+		// TODO Auto-generated method stub
+		
+	}
     public String getNombre() {
         return nombre;
     }
@@ -29,17 +42,39 @@ public class Restaurante {
     public void setCoordenadas(String coordenadas) {
         this.coordenadas = coordenadas;
     }
+        
+    
+    public String getCodigoPostal() {
+		return codigoPostal;
+	}
 
-    public List<SitioTuristico> getSitios() {
+
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
+	}
+
+
+	public List<SitioTuristico> getSitios() {
         return sitios;
     }
 
     public void setSitios(List<SitioTuristico> sitios) {
         this.sitios = sitios;
     }
+    
+    public List<Plato> getPlatos() {
+		return platos;
+	}
+    
+    public void setPlatos(List<Plato> platos) {
+		this.platos = platos;
+	}
 
 	@Override
 	public String toString() {
-		return "Restaurante [id=" + id + ", nombre=" + nombre + ", coordenadas=" + coordenadas + ", sitios=" + sitios + "]";
+		return "Restaurante [id=" + id + ", nombre=" + nombre + ", codigo postal="+codigoPostal+", coordenadas=" + coordenadas + ", sitios=" + sitios + "]";
 	}
+
+
+
 }

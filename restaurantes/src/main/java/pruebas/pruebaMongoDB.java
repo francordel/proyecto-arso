@@ -47,7 +47,7 @@ public class pruebaMongoDB {
 			SitioTuristico sitio = new SitioTuristico();
 			sitio.setTitulo("Altorreal"+i);
 			sitio.setResumen("Morada del rey Pablo X el Sabio");
-			sitio.setImagen("https://www.elperiodico.com/es/imagenes/2019/05/14/actualidad/1557840000_000000_1557840000_noticia_normal.jpg");
+			sitio.getImagenes().add("https://www.elperiodico.com/es/imagenes/2019/05/14/actualidad/1557840000_000000_1557840000_noticia_normal.jpg");
 			for(int j = 0; j<3; j++) {
 				sitio.getEnlacesExternos().add("https://www.misintaxis.com"+j);
 			}
