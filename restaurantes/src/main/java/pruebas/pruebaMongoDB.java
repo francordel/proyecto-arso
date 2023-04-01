@@ -43,7 +43,7 @@ public class pruebaMongoDB {
 		restaurante.setNombre("El restaurante de la esquina");
 
 
-		for(int i=0; i<3; i++) {
+		for(int i=0; i<1; i++) {
 			SitioTuristico sitio = new SitioTuristico();
 			sitio.setTitulo("Altorreal"+i);
 			sitio.setResumen("Morada del rey Pablo X el Sabio");

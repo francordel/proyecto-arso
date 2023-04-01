@@ -64,16 +64,14 @@ public class pruebaMongoDByDBPedia {
 		System.out.println(database.getName());
 
 		MongoCollection<Restaurante> restaurantes = database.getCollection("restaurantes", Restaurante.class);
-		MongoCollection<SitioTuristico> sitiosTuristicos = database.getCollection("sitiosturisticos", SitioTuristico.class);
-/*	
+		MongoCollection<SitioTuristico> sitiosTuristicos = database.getCollection("sitiosturisticos", SitioTuristico.class);	
 		//Insertamos un restaurante
- 		Restaurante laPeque = new Restaurante();
-		laPeque.setNombre("La pequeña taberna");
-		laPeque.setCodigoPostal("30003");
-		laPeque.setCoordenadas("37,982494, -1,126312");
-		restaurantes.insertOne(laPeque);
-		 
-*/
+		Restaurante MasKTapas = new Restaurante();
+		MasKTapas.setNombre("Mas Ke Tapas American Grill");
+		MasKTapas.setCodigoPostal("30011");
+		MasKTapas.setCoordenadas("37.97692765766116, -1.1244507925484326");
+		restaurantes.insertOne(MasKTapas);
+		
 
 
 		for(Restaurante restaurante : restaurantes.find()) {
