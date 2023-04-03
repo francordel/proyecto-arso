@@ -16,7 +16,7 @@ public class Restaurante implements Identificable{
     private String nombre;
     private String coordenadas;
     private String codigoPostal;
-    //private List<Plato> platos = new LinkedList<Plato>();
+    private List<Plato> platos = new LinkedList<Plato>();
     private List<SitioTuristico> sitios = new LinkedList<SitioTuristico>();
 
     public String  getId() {
@@ -62,7 +62,7 @@ public class Restaurante implements Identificable{
     public void setSitios(List<SitioTuristico> sitios) {
         this.sitios = sitios;
     }
-  /* 
+
     public List<Plato> getPlatos() {
 		return platos;
 	}
@@ -70,7 +70,7 @@ public class Restaurante implements Identificable{
     public void setPlatos(List<Plato> platos) {
 		this.platos = platos;
 	}
-*/
+
 	@Override
 	public String toString() {
 		return "Restaurante [id=" + id + ", nombre=" + nombre + ", codigo postal="+codigoPostal+", coordenadas=" + coordenadas + ", sitios=" + sitios + "]";

@@ -29,6 +29,9 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	public void update(String id, String nombre, String codigoPostal, String coordenadas)
 			throws RepositorioException, EntidadNoEncontrada {
 		
+		// DUDA CON PUT: ¿QUÉ PASA SI QUIERES CAMBIAR SOLO UNO DE LOS CAMPOS Y QUEDAN CAMPOS VACÍOS?
+		// ¿QUÉ LE LLEGA AL PUT? CADENA VACÍA, NULL...?
+
 		Restaurante restaurante = repositorio.getById(id);
 		
 		restaurante.setNombre(nombre);
