@@ -1,13 +1,14 @@
-package repositorio;
+package restaurantes.repositorio;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import opiniones.modelo.Restaurante;
+import repositorio.RepositorioMongoDB;
+import restaurantes.modelo.Restaurante;
 
-public class RepositorioOpinionesMongoDB extends RepositorioMongoDB<Restaurante> {
+public class RepositorioRestauranteMongoDB extends RepositorioMongoDB<Restaurante> {
 
-    public RepositorioOpinionesMongoDB() {
+    public RepositorioRestauranteMongoDB() {
     	// Llamar al constructor de la clase padre
     	super(); 
     }

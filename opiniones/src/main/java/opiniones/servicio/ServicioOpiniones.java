@@ -4,20 +4,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import opiniones.modelo.Plato;
-import opiniones.modelo.Restaurante;
-import opiniones.modelo.SitioTuristico;
+import opiniones.modelo.Opinion;
+import opiniones.modelo.Valoracion;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
 
-public class ServicioRestaurantes implements IServicioRestaurantes {
+public class ServicioOpiniones implements IServicioOpiniones {
 	
-	private Repositorio<Restaurante, String> repositorio = FactoriaRepositorios.getRepositorio(Restaurante.class);
+	private Repositorio<Opinion, String> repositorio = FactoriaRepositorios.getRepositorio(Opinion.class);
 
 	@Override
 	public String create(String nombre, String codigoPostal, String coordenadas) throws RepositorioException {
-		Restaurante restaurante = new Restaurante();
+		Opinion restaurante = new Opinion();
 		restaurante.setNombre(nombre);
 		restaurante.setCodigoPostal(codigoPostal);
 		restaurante.setCoordenadas(coordenadas);
@@ -32,7 +32,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		// DUDA CON PUT: ¿QUÉ PASA SI QUIERES CAMBIAR SOLO UNO DE LOS CAMPOS Y QUEDAN CAMPOS VACÍOS?
 		// ¿QUÉ LE LLEGA AL PUT? CADENA VACÍA, NULL...?
 
-		Restaurante restaurante = repositorio.getById(id);
+		Opinion restaurante = repositorio.getById(id);
 		
 		restaurante.setNombre(nombre);
 		restaurante.setCodigoPostal(codigoPostal);
@@ -42,24 +42,24 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	}
 
 	@Override
-	public List<SitioTuristico> getSitiosProximos(String id) throws RepositorioException, EntidadNoEncontrada {
-		Restaurante restaurante = repositorio.getById(id);
+	public List<Valoracion> getSitiosProximos(String id) throws RepositorioException, EntidadNoEncontrada {
+		Opinion restaurante = repositorio.getById(id);
 
 		return restaurante.getSitios();
 	}
 
 	@Override
-	public void setSitiosDestacados(String id, List<SitioTuristico> sitios)
+	public void setSitiosDestacados(String id, List<Valoracion> sitios)
 			throws RepositorioException, EntidadNoEncontrada {
 		
-		Restaurante restaurante = repositorio.getById(id);
+		Opinion restaurante = repositorio.getById(id);
 		
 		restaurante.setSitios(sitios);
 	}
 
 	@Override
 	public void addPlato(String id, Plato plato) throws RepositorioException, EntidadNoEncontrada {
-		Restaurante restaurante = repositorio.getById(id);
+		Opinion restaurante = repositorio.getById(id);
 		
 		List<Plato> platos = restaurante.getPlatos();
 		
@@ -77,7 +77,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	@Override
 	public void removePlato(String id, String nombre) throws RepositorioException, EntidadNoEncontrada {
 		
-		Restaurante restaurante = repositorio.getById(id);
+		Opinion restaurante = repositorio.getById(id);
 		
 		List<Plato> platos = restaurante.getPlatos();
 		
@@ -91,7 +91,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 	@Override
 	public void updatePlato(String id, Plato plato) throws RepositorioException, EntidadNoEncontrada {
-		Restaurante restaurante = repositorio.getById(id);
+		Opinion restaurante = repositorio.getById(id);
 		
 		List<Plato> platos = restaurante.getPlatos();
 		
@@ -105,13 +105,13 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	}
 
 	@Override
-	public Restaurante getRestaurante(String id) throws RepositorioException, EntidadNoEncontrada {
+	public Opinion getRestaurante(String id) throws RepositorioException, EntidadNoEncontrada {
 		return repositorio.getById(id);
 	}
 
 	@Override
 	public void removeRestaurante(String id) throws RepositorioException, EntidadNoEncontrada {
-		Restaurante restaurante = repositorio.getById(id);
+		Opinion restaurante = repositorio.getById(id);
 		
 		repositorio.delete(restaurante);
 	}
@@ -124,7 +124,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		
 		for (String id : repositorio.getIds()) {
 			try {
-				Restaurante restaurante = getRestaurante(id);
+				Opinion restaurante = getRestaurante(id);
 				RestauranteResumen resumen = new RestauranteResumen();
 				resumen.setId(restaurante.getId());
 				resumen.setNombre(restaurante.getNombre());

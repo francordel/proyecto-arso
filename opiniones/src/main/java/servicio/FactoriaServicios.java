@@ -1,5 +1,4 @@
-package opiniones.servicio;
-
+package servicio;
 import java.util.HashMap;
 import java.util.Map;
 

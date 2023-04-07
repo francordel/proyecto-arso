@@ -6,10 +6,10 @@ import repositorio.RepositorioException;
 import java.util.List;
 
 import opiniones.modelo.Plato;
-import opiniones.modelo.Restaurante;
-import opiniones.modelo.SitioTuristico;
+import opiniones.modelo.Opinion;
+import opiniones.modelo.Valoracion;
 
-public interface IServicioRestaurantes {
+public interface IServicioOpiniones {
 
 	/** 
 	 * Metodo de alta de un restaurante.
@@ -24,12 +24,12 @@ public interface IServicioRestaurantes {
 	/**
 	 * Obtener sitios turísticos próximos.
 	 */
-	List<SitioTuristico> getSitiosProximos(String id) throws RepositorioException, EntidadNoEncontrada;
+	List<Valoracion> getSitiosProximos(String id) throws RepositorioException, EntidadNoEncontrada;
 	
 	/**
 	 * Establecer sitios turísticos destacados.
 	 */
-	void setSitiosDestacados(String id, List<SitioTuristico> sitios) throws RepositorioException, EntidadNoEncontrada;
+	void setSitiosDestacados(String id, List<Valoracion> sitios) throws RepositorioException, EntidadNoEncontrada;
 	
 	/**
 	 * Añadir un plato al restaurante.
@@ -49,7 +49,7 @@ public interface IServicioRestaurantes {
 	/**
 	 * Recupera una actividad utilizando el identificador. 	
 	 */
-	Restaurante getRestaurante(String id)  throws RepositorioException, EntidadNoEncontrada;
+	Opinion getRestaurante(String id)  throws RepositorioException, EntidadNoEncontrada;
 	
 	/**
 	 * Elimina una actividad utilizando el identificador.

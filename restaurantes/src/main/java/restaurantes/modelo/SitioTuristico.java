@@ -9,23 +9,13 @@ import org.bson.types.ObjectId;
 
 import java.util.LinkedList;
 public class SitioTuristico {
-	@BsonId()
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String id;
+
 	private String titulo;
     private String resumen;
     private List<String> categorias = new LinkedList<String>();
     private List<String> enlacesExternos = new LinkedList<String>();
     private List<String> imagen = new LinkedList<String>();
 
-    public String  getId() {
-        return id;
-    }
-
-	public void setId(String id) {
-		// TODO Auto-generated method stub
-		this.id = id;
-	}
     
     public String getTitulo() {
         return titulo;

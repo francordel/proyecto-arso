@@ -1,8 +1,8 @@
 package pruebas;
 
 import repositorio.RepositorioException;
-import repositorio.RepositorioRestauranteMongoDB;
 import restaurantes.modelo.Restaurante;
+import restaurantes.repositorio.RepositorioRestauranteMongoDB;
 
 public class pruebaRepoRestrauranteMongoDB {
 	public static void main(String[] args) {
