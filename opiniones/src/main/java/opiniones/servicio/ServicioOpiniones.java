@@ -1,9 +1,10 @@
 package opiniones.servicio;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import opiniones.modelo.Plato;
+
 import opiniones.modelo.Opinion;
 import opiniones.modelo.Valoracion;
 import repositorio.EntidadNoEncontrada;
@@ -16,129 +17,42 @@ public class ServicioOpiniones implements IServicioOpiniones {
 	private Repositorio<Opinion, String> repositorio = FactoriaRepositorios.getRepositorio(Opinion.class);
 
 	@Override
-	public String create(String nombre, String codigoPostal, String coordenadas) throws RepositorioException {
-		Opinion restaurante = new Opinion();
-		restaurante.setNombre(nombre);
-		restaurante.setCodigoPostal(codigoPostal);
-		restaurante.setCoordenadas(coordenadas);
-		
-		return repositorio.add(restaurante);
+	public String create(String nombreRecurso) throws RepositorioException {
+		Opinion opinion = new Opinion(nombreRecurso, new LinkedList<>());
+		return repositorio.add(opinion);
 	}
 
 	@Override
-	public void update(String id, String nombre, String codigoPostal, String coordenadas)
-			throws RepositorioException, EntidadNoEncontrada {
-		
-		// DUDA CON PUT: ¿QUÉ PASA SI QUIERES CAMBIAR SOLO UNO DE LOS CAMPOS Y QUEDAN CAMPOS VACÍOS?
-		// ¿QUÉ LE LLEGA AL PUT? CADENA VACÍA, NULL...?
+	public void addValoracion(String id, Valoracion valoracion) throws RepositorioException, EntidadNoEncontrada {
+	    Opinion opinion = repositorio.getById(id);
+	    List<Valoracion> valoraciones = opinion.getValoraciones();
 
-		Opinion restaurante = repositorio.getById(id);
-		
-		restaurante.setNombre(nombre);
-		restaurante.setCodigoPostal(codigoPostal);
-		restaurante.setCoordenadas(coordenadas);
+	    // Recorremos la lista de valoraciones con un iterador
+	    Iterator<Valoracion> iter = valoraciones.iterator();
+	    while (iter.hasNext()) {
+	        Valoracion v = iter.next();
+	        if (v.getCorreoElectronico().equals(valoracion.getCorreoElectronico())) {
+	            // Si encontramos una valoración con el mismo correo, la eliminamos
+	            iter.remove();
+	        }
+	    }
 
-		repositorio.update(restaurante);
+	    // Añadimos la nueva valoración a la lista
+	    valoraciones.add(valoracion);
 	}
 
-	@Override
-	public List<Valoracion> getSitiosProximos(String id) throws RepositorioException, EntidadNoEncontrada {
-		Opinion restaurante = repositorio.getById(id);
-
-		return restaurante.getSitios();
-	}
 
 	@Override
-	public void setSitiosDestacados(String id, List<Valoracion> sitios)
-			throws RepositorioException, EntidadNoEncontrada {
-		
-		Opinion restaurante = repositorio.getById(id);
-		
-		restaurante.setSitios(sitios);
-	}
-
-	@Override
-	public void addPlato(String id, Plato plato) throws RepositorioException, EntidadNoEncontrada {
-		Opinion restaurante = repositorio.getById(id);
-		
-		List<Plato> platos = restaurante.getPlatos();
-		
-		for (Plato platoExistente : platos) {
-			if (platoExistente.getNombre().equals(plato.getNombre())) {
-				throw new IllegalArgumentException("Ya existe un plato con este nombre");
-			}
-		}
-
-		platos.add(plato);
-		restaurante.setPlatos(platos);
-		
-	}
-
-	@Override
-	public void removePlato(String id, String nombre) throws RepositorioException, EntidadNoEncontrada {
-		
-		Opinion restaurante = repositorio.getById(id);
-		
-		List<Plato> platos = restaurante.getPlatos();
-		
-		for (Plato plato : platos) {
-			if (plato.getNombre().equals(nombre)) {
-				platos.remove(plato);
-				restaurante.setPlatos(platos);
-			}
-		}
-	}
-
-	@Override
-	public void updatePlato(String id, Plato plato) throws RepositorioException, EntidadNoEncontrada {
-		Opinion restaurante = repositorio.getById(id);
-		
-		List<Plato> platos = restaurante.getPlatos();
-		
-		for (Plato platoExistente : platos) {
-			if (platoExistente.getNombre().equals(plato.getNombre())) {
-				platos.remove(platoExistente);
-				platos.add(plato);
-				restaurante.setPlatos(platos);
-			}
-		}
-	}
-
-	@Override
-	public Opinion getRestaurante(String id) throws RepositorioException, EntidadNoEncontrada {
+	public Opinion getOpinion(String id) throws RepositorioException, EntidadNoEncontrada {
 		return repositorio.getById(id);
 	}
 
 	@Override
-	public void removeRestaurante(String id) throws RepositorioException, EntidadNoEncontrada {
-		Opinion restaurante = repositorio.getById(id);
-		
-		repositorio.delete(restaurante);
+	public void removeOpinion(String id) throws RepositorioException, EntidadNoEncontrada {
+		Opinion opinion = repositorio.getById(id);
+		repositorio.delete(opinion);
 	}
 
-	@Override
-	public List<RestauranteResumen> getListadoRestaurantes() throws RepositorioException {
-		
-		LinkedList<RestauranteResumen> resultado = new LinkedList<>();
 
-		
-		for (String id : repositorio.getIds()) {
-			try {
-				Opinion restaurante = getRestaurante(id);
-				RestauranteResumen resumen = new RestauranteResumen();
-				resumen.setId(restaurante.getId());
-				resumen.setNombre(restaurante.getNombre());
-				resumen.setCoordenadas(restaurante.getCoordenadas());
-				resumen.setCodigoPostal(restaurante.getCodigoPostal());
-				
-				resultado.add(resumen);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		return resultado;
-	}
 
 }
