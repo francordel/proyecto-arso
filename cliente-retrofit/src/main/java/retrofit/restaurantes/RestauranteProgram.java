@@ -1,9 +1,3 @@
-                            // IMPORTANTE //
-                        // Archivo de prueba//
-
-// Este programa tiene las pruebas unitarias del servicio REST.
-// Este archivo se moverá a su carpeta correspondiente cuando se cree el paquete del cliente Retrofit.
-
 package retrofit.restaurantes;
 
 import java.net.URI;

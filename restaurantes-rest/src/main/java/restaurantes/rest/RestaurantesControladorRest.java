@@ -1,9 +1,10 @@
 package restaurantes.rest;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.ApiParam;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class RestaurantesControladorRest {
   // 1 // void create(Restaurante restaurante)
   // curl -X POST -H "Content-Type: application/json" -d '{"nombre": "nombre", "codigoPostal": "codigoPostal", "coordenadas": "coordenadas"}' http://localhost:8080/restaurantes
 
-  @Operation(summary = "Crea un restaurante")
+  @ApiOperation(value = "Crea un restaurante")
   @ApiResponses(
     value = {
       @ApiResponse(
@@ -73,7 +74,7 @@ public class RestaurantesControladorRest {
   // 2 // void update(String id, Restaurante restaurante)
   // curl -X PUT -H "Content-Type: application/json" -d '{"nombre": "nombre", "codigoPostal": "codigoPostal", "coordenadas": "coordenadas"}' http://localhost:8080/restaurantes/{id}
 
-  @Operation(summary = "Actualiza un restaurante")
+  @ApiOperation(value = "Actualiza un restaurante")
   @ApiResponses(
     value = {
       @ApiResponse(
@@ -111,7 +112,7 @@ public class RestaurantesControladorRest {
   // 3 // List<SitioTuristico> getSitiosProximos(String id)
   // curl -X GET http://localhost:8080/restaurantes/{id}/sitiosProximos
 
-  @Operation(summary = "Obtiene sitios turísticos próximos a un restaurante")
+  @ApiOperation(value = "Obtiene sitios turísticos próximos a un restaurante")
   @ApiResponses(
     value = {
       @ApiResponse(
@@ -140,8 +141,8 @@ public class RestaurantesControladorRest {
   // 4 // void setSitiosDestacados(String id, List<SitioTuristico> sitios)
   // curl -X PUT -H "Content-Type: application/json" -d '[{"nombre": "nombre", "descripcion": "descripcion"}]' http://localhost:8080/restaurantes/{id}/sitiosDestacados
 
-  @Operation(
-    summary = "Establece sitios turísticos destacados para un restaurante"
+  @ApiOperation(
+    value = "Establece sitios turísticos destacados para un restaurante"
   )
   @ApiResponses(
     value = {
@@ -175,7 +176,7 @@ public class RestaurantesControladorRest {
   // 5 // void addPlato(String id, Plato plato)
   // curl -X POST -H "Content-Type: application/json" -d '{"nombre": "nombre", "descripcion": "descripcion"}' http://localhost:8080/restaurantes/{id}/platos
 
-  @Operation(summary = "Añade un plato a un restaurante")
+  @ApiOperation(value = "Añade un plato a un restaurante")
   @ApiResponses(
     value = {
       @ApiResponse(
@@ -205,7 +206,7 @@ public class RestaurantesControladorRest {
   // 6 // void removePlato(String id, String nombre)
   // curl -X DELETE http://localhost:8080/restaurantes/{id}/platos/{nombre}
 
-  @Operation(summary = "Elimina un plato de un restaurante")
+  @ApiOperation(value = "Elimina un plato de un restaurante")
   @ApiResponses(
     value = {
       @ApiResponse(
@@ -237,7 +238,7 @@ public class RestaurantesControladorRest {
   // 7 // void updatePlato(String id, Plato plato)
   // curl -X PUT -H "Content-Type: application/json" -d '{"nombre": "nombre", "descripcion": "descripcion"}' http://localhost:8080/restaurantes
 
-  @Operation(summary = "Actualiza un plato de un restaurante")
+  @ApiOperation(value = "Actualiza un plato de un restaurante")
   @ApiResponses(
     value = {
       @ApiResponse(
@@ -270,7 +271,7 @@ public class RestaurantesControladorRest {
   // 8 // Restaurante getRestaurante(String id)
   // curl -X GET http://localhost:8080/restaurantes/{id}
 
-  @Operation(summary = "Obtiene un restaurante por ID")
+  @ApiOperation(value = "Obtiene un restaurante por ID")
   @ApiResponses(
     value = {
       @ApiResponse(
@@ -301,7 +302,7 @@ public class RestaurantesControladorRest {
   // 9 // void removeRestaurante(String id)
   // curl -X DELETE http://localhost:8080/restaurantes/{id}
 
-  @Operation(summary = "Elimina un restaurante por ID")
+  @ApiOperation(value = "Elimina un restaurante por ID")
   @ApiResponses(
     value = {
       @ApiResponse(
@@ -329,7 +330,7 @@ public class RestaurantesControladorRest {
   // 10 // Listado getListadoRestaurantes()
   // curl -X GET http://localhost:8080/restaurantes
 
-  @Operation(summary = "Obtiene el listado de restaurantes")
+  @ApiOperation(value = "Obtiene el listado de restaurantes")
   @ApiResponses(
     value = {
       @ApiResponse(
