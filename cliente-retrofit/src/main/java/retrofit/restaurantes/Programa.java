@@ -5,6 +5,10 @@ import java.util.List;
 
 import okhttp3.Headers;
 import okhttp3.MediaType;
+import restaurantes.modelo.Plato;
+import restaurantes.modelo.Restaurante;
+import restaurantes.rest.RestaurantesRestClient;
+import retrofit.restaurantes.Listado.ResumenExtendido;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -24,7 +28,7 @@ public class Programa {
         restaurante.setCodigoPostal("12345");
         restaurante.setCoordenadas("40.712776, -74.005974");
 
-        Response<Void> createResult = service.create(restaurante).execute();
+        Response<Void> createResult = service.createRestaurante(restaurante).execute();
         String restaurantUrl = createResult.headers().get("Location");
         String restaurantId = restaurantUrl.substring(restaurantUrl.lastIndexOf("/") + 1);
 
@@ -47,11 +51,11 @@ public class Programa {
 
         // Update the restaurant
         retrievedRestaurant.setNombre("Updated Restaurant");
-        service.update(restaurantId, retrievedRestaurant).execute();
+        service.updateRestaurante(restaurantId, retrievedRestaurant).execute();
         System.out.println("Restaurante actualizado");
 
         // Get list of all restaurants
-        Listado listado = service.getListadoRestaurantes().execute().body();
+        Listado listado = (Listado) service.getListadoRestaurantes().execute().body();
         System.out.println("Listado de restaurantes:");
         for (ResumenExtendido restauranteResumen : listado.getRestaurante()) {
             System.out.println("\t" + restauranteResumen.getResumen().getNombre());

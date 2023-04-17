@@ -37,8 +37,7 @@ public abstract class RepositorioMongoDB<T extends Identificable> implements Rep
 		 ****************************************/
 
 		ConnectionString connectionString = new ConnectionString(
-				"mongodb+srv://misintaxis:misintaxis@franxpablo.eraamtt.mongodb.net/?retryWrites=true&w=majority");
-		// I need to configure the CodecRegistry to include a codec to handle the
+				"mongodb://misintaxis:misintaxis@ac-xntos2k-shard-00-00.eraamtt.mongodb.net:27017,ac-xntos2k-shard-00-01.eraamtt.mongodb.net:27017,ac-xntos2k-shard-00-02.eraamtt.mongodb.net:27017/?ssl=true&replicaSet=atlas-a712ow-shard-0&authSource=admin&retryWrites=true&w=majority");		// I need to configure the CodecRegistry to include a codec to handle the
 		// translation to and from BSON for our POJOs.
 		CodecRegistry pojoCodecRegistry = CodecRegistries
 				.fromProviders(PojoCodecProvider.builder().automatic(true).build());

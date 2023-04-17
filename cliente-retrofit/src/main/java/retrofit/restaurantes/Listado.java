@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import restaurantes.servicio.RestauranteResumen;
+
 @XmlRootElement
 public class Listado {
 
