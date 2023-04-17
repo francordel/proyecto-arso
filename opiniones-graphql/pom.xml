@@ -32,13 +32,11 @@
 			<artifactId>graphql-java</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-
 		<dependency>
-			<groupId>io.leangen.graphql</groupId>
-			<artifactId>spqr</artifactId>
-			<version>0.9.1</version>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-tools</artifactId>
+			<version>3.2.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-java-servlet</artifactId>
@@ -61,7 +59,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>opiniones-graphql-decorator</finalName>
+		<finalName>opiniones-graphql</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
@@ -75,9 +73,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<compilerArgs>
-						<arg>-parameters</arg>
-					</compilerArgs>
 				</configuration>
 			</plugin>
 
