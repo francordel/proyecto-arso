@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>arso</groupId>
-	<artifactId>opiniones-graphql</artifactId>
+	<artifactId>opiniones-graphql-decorator</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>GraphQL</name>
@@ -32,13 +32,11 @@
 			<artifactId>graphql-java</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-
 		<dependency>
-			<groupId>io.leangen.graphql</groupId>
-			<artifactId>spqr</artifactId>
-			<version>0.9.1</version>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-tools</artifactId>
+			<version>3.2.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-java-servlet</artifactId>
@@ -75,9 +73,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<compilerArgs>
-						<arg>-parameters</arg>
-					</compilerArgs>
 				</configuration>
 			</plugin>
 

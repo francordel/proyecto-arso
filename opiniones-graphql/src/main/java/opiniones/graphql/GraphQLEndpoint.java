@@ -2,10 +2,10 @@ package opiniones.graphql;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.coxautodev.graphql.tools.SchemaParser;
+
 import graphql.schema.GraphQLSchema;
 import graphql.servlet.SimpleGraphQLServlet;
-import io.leangen.graphql.GraphQLSchemaGenerator;
-import opiniones.servicio.ServicioOpinionesGraphQL;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = "/graphql")
@@ -17,10 +17,10 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
     private static GraphQLSchema buildSchema() {
       
-    	 return new GraphQLSchemaGenerator()
-    		        .withOperationsFromSingletons(
-    		            new ServicioOpinionesGraphQL()
-    		            )
-    		        .generate();
+        return SchemaParser.newParser()
+                .file("schema.graphqls")
+                .resolvers(new Query(), new Mutation())
+                .build()
+                .makeExecutableSchema();
     }
 }
