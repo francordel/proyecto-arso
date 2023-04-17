@@ -5,7 +5,6 @@ import java.util.List;
 
 import restaurantes.servicio.RestauranteResumen;
 
-@XmlRootElement
 public class Listado {
 
 	public static class ResumenExtendido {

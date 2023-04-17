@@ -22,7 +22,7 @@ public class RepositorioRestaurantesMemoria extends RepositorioMemoria<Restauran
 				for(int j = 0; j<3; j++) {
 					sitio.getEnlacesExternos().add("https://www.misintaxis.com"+j);
 				}
-				System.out.println("Sitio Id asignado: " + sitio.getId());
+				// System.out.println("Sitio Id asignado: " + sitio.getId());
 	
 				restaurante.getSitios().add(sitio);
 			}

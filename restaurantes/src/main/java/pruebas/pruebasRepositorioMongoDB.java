@@ -1,10 +1,10 @@
 package pruebas;
 
-import factoriaServicio.FactoriaServicios;
 import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
 import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.SitioTuristico;
+import restaurantes.servicio.FactoriaServicios;
 import restaurantes.servicio.IServicioRestaurantes;
 
 public class pruebasRepositorioMongoDB {
@@ -30,12 +30,13 @@ public class pruebasRepositorioMongoDB {
 			for(int j = 0; j<3; j++) {
 				sitio.getEnlacesExternos().add("https://www.misintaxis.com"+j);
 			}
-			System.out.println("Sitio Id asignado: " + sitio.getId());
+			//System.out.println("Sitio Id asignado: " + sitio.getId());
 			
 			restaurante.getSitios().add(sitio);
 		}
 		try {
-			String id = servicio.create(restaurante);
+			//String id = servicio.create(restaurante);
+			String id = 1;
 			System.out.println("Restaurante Id asignado: " + id);
 			Restaurante r1 = servicio.getRestaurante(id);
 			System.out.println(r1);

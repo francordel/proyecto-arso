@@ -193,7 +193,7 @@ public class pruebaMongoDByDBPedia {
 	                    }
 	                }
 	                sitiosTuristicos.insertOne(sitioTuristico);
-	                System.out.println("Sitio Id asignado: " + sitioTuristico.getId());
+	                //System.out.println("Sitio Id asignado: " + sitioTuristico.getId());
 	                restaurante.getSitios().add(sitioTuristico);
 	            }
 	        }

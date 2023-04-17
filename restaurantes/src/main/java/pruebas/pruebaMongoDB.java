@@ -52,7 +52,7 @@ public class pruebaMongoDB {
 				sitio.getEnlacesExternos().add("https://www.misintaxis.com"+j);
 			}
 			sitiosTuristicos.insertOne(sitio);
-			System.out.println("Sitio Id asignado: " + sitio.getId());
+			//System.out.println("Sitio Id asignado: " + sitio.getId());
 
 			restaurante.getSitios().add(sitio);
 		}
