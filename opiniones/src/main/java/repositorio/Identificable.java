@@ -2,7 +2,7 @@ package repositorio;
 
 public interface Identificable {
 
-	Object getId();
+	String getId();
 	
 	void setId(String id);
 }
