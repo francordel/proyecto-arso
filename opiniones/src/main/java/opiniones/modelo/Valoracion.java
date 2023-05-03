@@ -9,7 +9,10 @@ public class Valoracion {
     private LocalDate fechaRegistro;
     private int calificacion;
     private String comentario;
-    
+    //Constructor vacio necesario para pojo con mongo
+    public Valoracion() {
+    	
+    }
 	public Valoracion(String correoElectronico, int calificacion, String comentario) {
 		this.correoElectronico = correoElectronico;
 		this.fechaRegistro = LocalDate.now();

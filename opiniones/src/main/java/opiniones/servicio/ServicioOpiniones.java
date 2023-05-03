@@ -19,11 +19,12 @@ public class ServicioOpiniones implements IServicioOpiniones {
 	@Override
 	public String create(String nombreRecurso) throws RepositorioException {
 		Opinion opinion = new Opinion(nombreRecurso, new LinkedList<>());
-		return repositorio.add(opinion);
+		repositorio.add(opinion);
+		return opinion.getId();
 	}
 
 	@Override
-	public void addValoracion(String id, Valoracion valoracion) throws RepositorioException, EntidadNoEncontrada {
+	public boolean addValoracion(String id, Valoracion valoracion) throws RepositorioException, EntidadNoEncontrada {
 	    Opinion opinion = repositorio.getById(id);
 	    List<Valoracion> valoraciones = opinion.getValoraciones();
 
@@ -39,6 +40,8 @@ public class ServicioOpiniones implements IServicioOpiniones {
 
 	    // Añadimos la nueva valoración a la lista
 	    valoraciones.add(valoracion);
+	    repositorio.update(opinion);
+	    return true;
 	}
 
 
@@ -48,9 +51,10 @@ public class ServicioOpiniones implements IServicioOpiniones {
 	}
 
 	@Override
-	public void removeOpinion(String id) throws RepositorioException, EntidadNoEncontrada {
+	public boolean removeOpinion(String id) throws RepositorioException, EntidadNoEncontrada {
 		Opinion opinion = repositorio.getById(id);
 		repositorio.delete(opinion);
+		return true;
 	}
 
 
