@@ -4,128 +4,73 @@ using System.Collections.Generic;
 using opiniones_rest.Modelo;
 using Repositorio;
 
-namespace Bookle.Servicio
+namespace opiniones_rest.Servicio
 {
-
-    public class ActividadResumen
+    public interface IServicioOpiniones
     {
+    /// <summary>
+    /// Registrar un recurso (con un nombre) para ser valorado (crea una opinión)
+    /// </summary>
+    string Create(string nombreRecurso);
 
-        public String Id { get; set; }
-        public String Titulo { get; set; }
-        public String Profesor { get; set; }
+    /// <summary>
+    /// Añadir una valoración sobre un recurso
+    /// </summary>
+    bool AddValoracion(string id, Valoracion valoracion);
 
-    }
-    public interface IServicioBookle
-    {
+    /// <summary>
+    /// Recuperar la opinión de un recurso utilizando el identificador.
+    /// </summary>
+    Opinion GetOpinion(string id);
 
-        string Create(Actividad actividad);
-
-        void Update(Actividad actividad);
-
-        Actividad Get(string id);
-
-        void Remove(string id);
-
-        bool Reservar(string idActividad, DateTime fecha, int indice, string alumno, string email);
-
-        List<ActividadResumen> GetResumenes();
+    /// <summary>
+    /// Elimina una opinión y sus valoraciones.
+    /// </summary>
+    bool RemoveOpinion(string id);
     }
 
-    public class ServicioBookle : IServicioBookle
+    public class ServicioOpiniones : IServicioOpiniones
     {
 
-        private Repositorio<Actividad, String> repositorio;
-
-        public ServicioBookle(Repositorio<Actividad, String> repositorio)
+        private Repositorio<Opinion, String> repositorio;
+        public ServicioOpiniones(Repositorio<Opinion, String> repositorio)
         {
 
             this.repositorio = repositorio;
         }
-
-
-        public String Create(Actividad actividad)
+        public string Create(string nombreRecurso)
         {
-
-            return repositorio.Add(actividad);
-
+            Opinion opinion = new Opinion { NombreRecurso = nombreRecurso, Valoraciones = new List<Valoracion>() };
+            repositorio.Add(opinion);
+            return opinion.Id;
         }
 
-        public void Update(Actividad actividad)
+        public bool AddValoracion(string id, Valoracion valoracion)
         {
+            Opinion opinion = repositorio.GetById(id);
+            List<Valoracion> valoraciones = opinion.Valoraciones;
 
-            repositorio.Update(actividad);
-        }
+            // Eliminamos las valoraciones con el mismo correo electrónico
+            valoraciones.RemoveAll(v => v.CorreoElectronico == valoracion.CorreoElectronico);
 
-        public Actividad Get(String id)
-        {
-
-            return repositorio.GetById(id);
-        }
-
-        public void Remove(String id)
-        {
-
-            Actividad actividad = repositorio.GetById(id);
-
-            repositorio.Delete(actividad);
-        }
-
-        public bool Reservar(String id, DateTime fecha, int indice, String alumno, String email)
-        {
-            if (indice < 1)
-                throw new ArgumentException("Los índices comienzan en 1");
-
-            if (alumno == null || alumno == "")
-                throw new ArgumentException("El nombre del alumno no debe ser vacío");
-
-            // email es opcional
-
-            Actividad actividad = repositorio.GetById(id);
-
-            DiaActividad diaActividad = actividad.Agenda.Find(dia => dia.Fecha.Date == fecha.Date);
-
-            if (diaActividad == null)
-                throw new ArgumentException("La fecha no esta en la agenda: " + fecha);
-
-            if (indice > diaActividad.Turnos.Count)
-                throw new ArgumentException("No existe el turno " + indice + " para la fecha " + fecha);
-
-            Turno turno = diaActividad.Turnos[indice - 1];
-
-            if (turno.Reserva != null)
-                return false;
-
-            turno.Reserva = new Reserva()
-            {
-                Alumno = alumno,
-                Email = email
-            };
-
-            repositorio.Update(actividad);
-
+            // Añadimos la nueva valoración a la lista
+            valoraciones.Add(valoracion);
+            repositorio.Update(opinion);
             return true;
         }
 
-        public List<ActividadResumen> GetResumenes()
+        public Opinion GetOpinion(string id)
         {
-
-            var resultado = new List<ActividadResumen>();
-
-            foreach (String id in repositorio.GetIds())
-            {
-
-                    var actividad = Get(id);
-                    var resumen = new ActividadResumen
-                    {
-                        Id = actividad.Id,
-                        Titulo = actividad.Titulo,
-                        Profesor = actividad.Profesor
-                    };
-                    resultado.Add(resumen);
-            }
-
-            return resultado;
+            return repositorio.GetById(id);
         }
+
+        public bool RemoveOpinion(string id)
+        {
+            Opinion opinion = repositorio.GetById(id);
+            repositorio.Delete(opinion);
+            return true;
+        }
+        
 
     }
 

@@ -4,56 +4,56 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
-using Bookle.Modelo;
+using opiniones_rest.Modelo;
 
-namespace Bookle.Repositorio
+namespace opiniones_rest.Repositorio
 {
 
 
-    public class RepositorioActividadesMongoDB : Repositorio<Actividad, string>
+    public class RepositorioOpinionesMongoDB : Repositorio<Opinion, string>
     {
-        private readonly IMongoCollection<Actividad> actividades;
+        private readonly IMongoCollection<Opinion> opiniones;
 
-        public RepositorioActividadesMongoDB()
+        public RepositorioOpinionesMongoDB()
         {
-            var client = new MongoClient("uri");
-            var database = client.GetDatabase("arso");
+            var client = new MongoClient("mongodb://localhost:27017");
+            var database = client.GetDatabase("ArsoProyecto");
 
-            actividades = database.GetCollection<Actividad>("actividades.net");
+            opiniones = database.GetCollection<Opinion>("Opiniones");
         }
 
-        public string Add(Actividad entity)
+        public string Add(Opinion entity)
         {
-            actividades.InsertOne(entity);
+            opiniones.InsertOne(entity);
 
             return entity.Id;
         }
 
-        public void Update(Actividad entity)
+        public void Update(Opinion entity)
         {
-            actividades.ReplaceOne(actividad => actividad.Id == entity.Id, entity);
+            opiniones.ReplaceOne(opinion => opinion.Id == entity.Id, entity);
         }
 
-        public void Delete(Actividad entity)
+        public void Delete(Opinion entity)
         {
-            actividades.DeleteOne(actividad => actividad.Id == entity.Id);
+            opiniones.DeleteOne(opinion => opinion.Id == entity.Id);
         }
 
-        public List<Actividad> GetAll()
+        public List<Opinion> GetAll()
         {
-            return actividades.Find(_ => true).ToList();
+            return opiniones.Find(_ => true).ToList();
         }
 
-        public Actividad GetById(string id)
+        public Opinion GetById(string id)
         {
-            return actividades
-                .Find(actividad => actividad.Id == id)
+            return opiniones
+                .Find(opinion => opinion.Id == id)
                 .FirstOrDefault();
         }
 
         public List<string> GetIds()
         {
-            var todas =  actividades.Find(_ => true).ToList();
+            var todas =  opiniones.Find(_ => true).ToList();
 
             return todas.Select(p => p.Id).ToList();
 

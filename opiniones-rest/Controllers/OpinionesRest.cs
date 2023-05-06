@@ -1,28 +1,28 @@
 using opiniones_rest.Modelo;
-using Bookle.Servicio;
+using opiniones_rest.Servicio;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 
-namespace BookleApi.Controllers
+namespace Opiniones_restApi.Controllers
 {
-    [Route("api/actividades")]
+    [Route("api/opiniones")]
     [ApiController]
-    public class ActividadesController : ControllerBase
+    public class OpinionesController : ControllerBase
     {
-        private readonly IServicioBookle _servicio;
+        private readonly IServicioOpiniones _servicio;
 
-        public ActividadesController(IServicioBookle servicio)
+        public OpinionesController(IServicioOpiniones servicio)
         {
             _servicio = servicio;
         }
 
         [HttpGet]
-        public ActionResult<List<ActividadResumen>> Get() =>
+        public ActionResult<List<OpinionResumen>> Get() =>
             _servicio.GetResumenes();
 
-        [HttpGet("{id}", Name = "GetActividad")]
-        public ActionResult<Actividad> Get(string id)
+        [HttpGet("{id}", Name = "GetOpinion")]
+        public ActionResult<Opinion> Get(string id)
         {
             var entidad = _servicio.Get(id);
 
@@ -35,15 +35,15 @@ namespace BookleApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Actividad> Create(Actividad actividad)
+        public ActionResult<Opinion> Create(Opinion opinion)
         {
-            _servicio.Create(actividad);
+            _servicio.Create(opinion);
 
-            return CreatedAtRoute("GetActividad", new { id = actividad.Id }, actividad);
+            return CreatedAtRoute("GetOpinion", new { id = opinion.Id }, opinion);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(string id, Actividad actividad)
+        public IActionResult Update(string id, Opinion opinion)
         {
             var entidad = _servicio.Get(id);
 
@@ -52,7 +52,7 @@ namespace BookleApi.Controllers
                 return NotFound();
             }
 
-            _servicio.Update(actividad);
+            _servicio.Update(opinion);
 
             return NoContent();
         }
@@ -60,9 +60,9 @@ namespace BookleApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            var actividad = _servicio.Get(id);
+            var opinion = _servicio.Get(id);
 
-            if (actividad == null)
+            if (opinion == null)
             {
                 return NotFound();
             }
@@ -75,9 +75,9 @@ namespace BookleApi.Controllers
         [HttpPost("{id}/agenda/{fecha}/turno/{indice}/reserva")]
         public IActionResult Reservar(string id, DateTime fecha, int indice, [FromForm] string alumno, [FromForm] string email)
         {
-            var actividad = _servicio.Get(id);
+            var opinion = _servicio.Get(id);
 
-            if (actividad == null)
+            if (opinion == null)
             {
                 return NotFound();
             }
