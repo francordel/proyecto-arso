@@ -6,13 +6,23 @@ using Repositorio;
 
 namespace opiniones_rest.Servicio
 {
+       public class OpinionResumen
+    {
+
+        public String Id { get; set; }
+        public String NombreRecurso { get; set; }
+
+    }
     public interface IServicioOpiniones
     {
     /// <summary>
     /// Registrar un recurso (con un nombre) para ser valorado (crea una opinión)
     /// </summary>
-    string Create(string nombreRecurso);
-
+    string Create(Opinion opinion);
+    /// <summary>
+    /// Actualizar una opinión	
+    /// </summary>
+    void Update(Opinion opinion);
     /// <summary>
     /// Añadir una valoración sobre un recurso
     /// </summary>
@@ -27,6 +37,12 @@ namespace opiniones_rest.Servicio
     /// Elimina una opinión y sus valoraciones.
     /// </summary>
     bool RemoveOpinion(string id);
+
+    /// <summary>
+    /// Obtener el resumen de las opiniones
+    /// </summary>
+    List<OpinionResumen> GetResumenes();
+
     }
 
     public class ServicioOpiniones : IServicioOpiniones
@@ -38,13 +54,16 @@ namespace opiniones_rest.Servicio
 
             this.repositorio = repositorio;
         }
-        public string Create(string nombreRecurso)
+        public string Create(Opinion opinion)
         {
-            Opinion opinion = new Opinion { NombreRecurso = nombreRecurso, Valoraciones = new List<Valoracion>() };
-            repositorio.Add(opinion);
-            return opinion.Id;
+            return repositorio.Add(opinion);
         }
 
+        public void Update(Opinion opinion)
+        {
+
+            repositorio.Update(opinion);
+        }
         public bool AddValoracion(string id, Valoracion valoracion)
         {
             Opinion opinion = repositorio.GetById(id);
@@ -71,6 +90,25 @@ namespace opiniones_rest.Servicio
             return true;
         }
         
+        public List<OpinionResumen> GetResumenes()
+        {
+
+            var resultado = new List<OpinionResumen>();
+
+            foreach (String id in repositorio.GetIds())
+            {
+
+                    var opinion = GetOpinion(id);
+                    var resumen = new OpinionResumen
+                    {
+                        Id = opinion.Id,
+                        NombreRecurso = opinion.NombreRecurso,
+                    };
+                    resultado.Add(resumen);
+            }
+
+            return resultado;
+        }
 
     }
 

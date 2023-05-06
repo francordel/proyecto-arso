@@ -1,5 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
+using opiniones_rest.Modelo;
+using opiniones_rest.Repositorio;
+using opiniones_rest.Servicio;
+using Repositorio;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<Repositorio<Opinion, string>, RepositorioOpinionesMongoDB>();
+builder.Services.AddSingleton<IServicioOpiniones, ServicioOpiniones>();
 // Add services to the container.
 
 builder.Services.AddControllers();

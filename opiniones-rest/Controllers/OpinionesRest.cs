@@ -24,7 +24,7 @@ namespace Opiniones_restApi.Controllers
         [HttpGet("{id}", Name = "GetOpinion")]
         public ActionResult<Opinion> Get(string id)
         {
-            var entidad = _servicio.Get(id);
+            var entidad = _servicio.GetOpinion(id);
 
             if (entidad == null)
             {
@@ -45,7 +45,7 @@ namespace Opiniones_restApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(string id, Opinion opinion)
         {
-            var entidad = _servicio.Get(id);
+            var entidad = _servicio.GetOpinion(id);
 
             if (entidad == null)
             {
@@ -60,29 +60,29 @@ namespace Opiniones_restApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            var opinion = _servicio.Get(id);
+            var opinion = _servicio.GetOpinion(id);
 
             if (opinion == null)
             {
                 return NotFound();
             }
 
-            _servicio.Remove(id);
+            _servicio.RemoveOpinion(id);
 
             return NoContent();
         }
 
-        [HttpPost("{id}/agenda/{fecha}/turno/{indice}/reserva")]
-        public IActionResult Reservar(string id, DateTime fecha, int indice, [FromForm] string alumno, [FromForm] string email)
+        [HttpPost("{id}/valoraciones")]
+        public IActionResult AddValoracion(string id, Valoracion valoracion)
         {
-            var opinion = _servicio.Get(id);
+            var opinion = _servicio.GetOpinion(id);
 
             if (opinion == null)
             {
                 return NotFound();
             }
             
-            _servicio.Reservar(id, fecha, indice, alumno, email);
+            _servicio.AddValoracion(id, valoracion);
 
             return NoContent();
         }
