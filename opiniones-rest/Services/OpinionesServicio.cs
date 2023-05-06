@@ -15,6 +15,7 @@ namespace opiniones_rest.Servicio
     }
     public interface IServicioOpiniones
     {
+        //LOS COMENTARIOS XML SI QUISIESE COMENTAR SWAGGER EN OPINIONESREST SERÍAN CON ESTE FORMATO
     /// <summary>
     /// Registrar un recurso (con un nombre) para ser valorado (crea una opinión)
     /// </summary>
