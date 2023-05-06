@@ -1,7 +1,7 @@
 
 using System;
 using System.Collections.Generic;
-using Bookle.Modelo;
+using opiniones_rest.Modelo;
 using Repositorio;
 
 namespace Bookle.Servicio

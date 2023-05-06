@@ -1,4 +1,4 @@
-using Bookle.Modelo;
+using opiniones_rest.Modelo;
 using Bookle.Servicio;
 using Microsoft.AspNetCore.Mvc;
 using System;
