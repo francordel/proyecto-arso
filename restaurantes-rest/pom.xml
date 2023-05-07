@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>arso</groupId>
 	<artifactId>restaurantes-rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-
 	<name>restaurantes-rest Maven Webapp</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>jakarta.xml.bind</groupId>
 			<artifactId>jakarta.xml.bind-api</artifactId>
@@ -32,26 +26,27 @@
 			<artifactId>jaxb-runtime</artifactId>
 			<version>2.3.3</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>2.4.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>arso</groupId>
 			<artifactId>restaurantes</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.5.1</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-
 		<!-- Jersey: implementación JAX-RS -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -69,24 +64,19 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
-
-
 		<!-- Herramienta Swagger -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-jersey-jaxrs</artifactId>
 			<version>1.5.0</version>
 		</dependency>
-
 		<!-- Para el servidor web Jetty -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.7.30</version>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<finalName>restaurantes-rest</finalName>
 		<pluginManagement>
@@ -127,7 +117,6 @@
 					<artifactId>jetty-maven-plugin</artifactId>
 					<version>9.4.26.v20200117</version>
 				</plugin>
-
 			</plugins>
 		</pluginManagement>
 	</build>
