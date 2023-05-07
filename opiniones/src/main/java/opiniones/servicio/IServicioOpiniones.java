@@ -16,7 +16,7 @@ public interface IServicioOpiniones {
 	/**
 	 * Añadir una valoración sobre un recurso
 	 */
-	void addValoracion(String id, Valoracion valoracion) throws RepositorioException, EntidadNoEncontrada;
+	boolean addValoracion(String id, Valoracion valoracion) throws RepositorioException, EntidadNoEncontrada;
 	
 	
 	/**
@@ -27,7 +27,7 @@ public interface IServicioOpiniones {
 	/**
 	 * Elimina una opinion y sus valoraciones.
 	 */
-	void removeOpinion(String id)  throws RepositorioException, EntidadNoEncontrada;
+	boolean removeOpinion(String id)  throws RepositorioException, EntidadNoEncontrada;
 
 	
 	

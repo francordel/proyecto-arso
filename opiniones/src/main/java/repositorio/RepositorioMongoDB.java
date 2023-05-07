@@ -8,6 +8,7 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -73,8 +74,15 @@ public abstract class RepositorioMongoDB<T extends Identificable> implements Rep
 
 	@Override
 	public void update(T entity) throws RepositorioException, EntidadNoEncontrada {
+		// Convertir la cadena de texto 'id' en un ObjectId
+	    ObjectId objectId;
+	    try {
+	        objectId = new ObjectId( entity.getId());
+	    } catch (IllegalArgumentException e) {
+	        throw new EntidadNoEncontrada("El ID proporcionado no es válido: " + entity.getId());
+	    }
 		// Filtro para buscar el documento por su ID
-		Bson filter = Filters.eq("_id", entity.getId());
+		Bson filter = Filters.eq("_id",objectId);
 		// Reemplaza un documento en la colección según el filtro especificado
 		UpdateResult result = mongoCollection.replaceOne(filter, entity);
 		// Si no se encontro el documento, lanzar excepción
@@ -85,8 +93,15 @@ public abstract class RepositorioMongoDB<T extends Identificable> implements Rep
 
 	@Override
 	public void delete(T entity) throws RepositorioException, EntidadNoEncontrada {
+		// Convertir la cadena de texto 'id' en un ObjectId
+	    ObjectId objectId;
+	    try {
+	        objectId = new ObjectId( entity.getId());
+	    } catch (IllegalArgumentException e) {
+	        throw new EntidadNoEncontrada("El ID proporcionado no es válido: " + entity.getId());
+	    }
 		// Filtro para buscar el documento por su ID
-		Bson filter = Filters.eq("_id", entity.getId());
+		Bson filter = Filters.eq("_id",objectId);
 		// Eliminar el documento
 		DeleteResult result = mongoCollection.deleteOne(filter);
 		// Si no se eliminó el documento, lanzar excepción
@@ -97,8 +112,15 @@ public abstract class RepositorioMongoDB<T extends Identificable> implements Rep
 
 	@Override
 	public T getById(String id) throws RepositorioException, EntidadNoEncontrada {
+	    // Convertir la cadena de texto 'id' en un ObjectId
+	    ObjectId objectId;
+	    try {
+	        objectId = new ObjectId(id);
+	    } catch (IllegalArgumentException e) {
+	        throw new EntidadNoEncontrada("El ID proporcionado no es válido: " + id);
+	    }
 		// Filtro para buscar el documento por su ID
-		Bson filter = Filters.eq("_id", id);
+		Bson filter = Filters.eq("_id", objectId);
 		// buscar el primer documento que satisfaga el filtro en este caso al buscar por
 		// ID solo deberia haber un match
 		T entity = mongoCollection.find(filter).first();

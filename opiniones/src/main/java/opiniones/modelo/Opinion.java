@@ -16,7 +16,9 @@ public class Opinion implements Identificable {
 	private String nombreRecurso;
 
 	private List<Valoracion> valoraciones = new LinkedList<Valoracion>();
-
+    // Constructor público sin argumentos
+    public Opinion() {
+    }
 	public Opinion(String nombreRecurso, List<Valoracion> valoraciones) {
 
 		this.nombreRecurso = nombreRecurso;

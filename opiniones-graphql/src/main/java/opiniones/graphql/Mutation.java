@@ -15,11 +15,11 @@ public class Mutation implements GraphQLRootResolver {
 	public String create(String nombreRecurso) throws RepositorioException {
 		return servicio.create(nombreRecurso);
 	}
-	public void addValoracion(String id, Valoracion valoracion) throws RepositorioException, EntidadNoEncontrada {
-		servicio.addValoracion(id, valoracion);
+	public boolean addValoracion(String id, String correoElectronico, int calificacion, String comentario) throws RepositorioException, EntidadNoEncontrada {
+		return servicio.addValoracion(id, new Valoracion(correoElectronico, calificacion,comentario));
 		
 	}
-	public void removeOpinion(String id) throws RepositorioException, EntidadNoEncontrada {
-		servicio.removeOpinion(id);		
+	public boolean removeOpinion(String id) throws RepositorioException, EntidadNoEncontrada {
+		return servicio.removeOpinion(id);		
 	}
 }
