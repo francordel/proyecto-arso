@@ -11,7 +11,7 @@ import repositorio.Identificable;
 
 public class Restaurante implements Identificable{
 	@BsonId()
-    @BsonRepresentation(BsonType.OBJECT_ID)
+    @BsonRepresentation(BsonType.STRING)
     private String id;
     private String nombre;
     private String coordenadas;
