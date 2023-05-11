@@ -80,7 +80,8 @@
 	<build>
 		<finalName>restaurantes-rest</finalName>
 		<pluginManagement>
-			<!-- lock down plugins versions to avoid using Maven defaults (may be 
+			<!-- lock down plugins versions to avoid using Maven defaults (may
+			be 
 				moved to parent pom) -->
 			<plugins>
 				<plugin>
@@ -91,7 +92,8 @@
 					<artifactId>maven-clean-plugin</artifactId>
 					<version>3.1.0</version>
 				</plugin>
-				<!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+				<!-- see
+				http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.8.0</version>
@@ -115,9 +117,17 @@
 				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.4.26.v20200117</version>
+					<version>9.4.7</version>
 				</plugin>
+
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.7</version>
+			</plugin>
+		</plugins>
 	</build>
 </project>

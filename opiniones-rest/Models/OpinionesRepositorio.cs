@@ -5,11 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
 using opiniones_rest.Modelo;
-using System
+using System;
 namespace opiniones_rest.Repositorio
 {
-eso 
-
     public class RepositorioOpinionesMongoDB : Repositorio<Opinion, string>
     {
         private readonly IMongoCollection<Opinion> opiniones;
@@ -19,7 +17,6 @@ eso
            //var client = new MongoClient("mongodb://localhost:27017");
             var client = new MongoClient(Environment.GetEnvironmentVariable("MONGODB_URI"));
             var database = client.GetDatabase("ArsoProyecto");
-
             opiniones = database.GetCollection<Opinion>("Opiniones");
         }
 
