@@ -19,7 +19,39 @@ public class Restaurante implements Identificable{
     private List<Plato> platos = new LinkedList<Plato>();
     private List<SitioTuristico> sitios = new LinkedList<SitioTuristico>();
 
-    public String  getId() {
+    /*
+     * UNION CON OPINIONES
+     */
+
+    private int numValoraciones;
+    private double calificacionMedia;
+    private String idOpinion;
+    
+    public int getNumValoraciones() {
+		return numValoraciones;
+	}
+
+	public void setNumValoraciones(int numValoraciones) {
+		this.numValoraciones = numValoraciones;
+	}
+
+	public double getCalificacionMedia() {
+		return calificacionMedia;
+	}
+
+	public void setCalificacionMedia(double calificacionMedia) {
+		this.calificacionMedia = calificacionMedia;
+	}
+
+	public String getIdOpinion() {
+		return idOpinion;
+	}
+
+	public void setIdOpinion(String idOpinion) {
+		this.idOpinion = idOpinion;
+	}
+
+	public String  getId() {
         return id;
     }
 
