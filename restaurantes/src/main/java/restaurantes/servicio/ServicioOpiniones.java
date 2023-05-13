@@ -6,6 +6,7 @@ import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.Valoracion;
 
 public interface ServicioOpiniones {
+	
 	void crearOpinion(Restaurante restaurante); 
 	//En esta operación se crea una opinión para el restaurante y se inicializan las propiedades anteriores
 	/*
