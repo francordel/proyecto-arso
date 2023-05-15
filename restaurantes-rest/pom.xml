@@ -70,12 +70,6 @@
 			<artifactId>swagger-jersey-jaxrs</artifactId>
 			<version>1.5.0</version>
 		</dependency>
-		<!-- Para el servidor web Jetty -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.30</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<finalName>restaurantes-rest</finalName>
@@ -117,17 +111,9 @@
 				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.4.7</version>
+					<version>9.4.26.v20200117</version>
 				</plugin>
-
 			</plugins>
 		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.7</version>
-			</plugin>
-		</plugins>
 	</build>
 </project>
