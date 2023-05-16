@@ -20,6 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
@@ -41,6 +42,9 @@ public class RestaurantesControladorRest {
 
   @Context
   private UriInfo uriInfo;
+  
+  @Context 
+  private SecurityContext securityContext;
 
   // 1 // void create(Restaurante restaurante)
   // curl -X POST -H "Content-Type: application/json" -d '{"nombre": "nombre", "codigoPostal": "codigoPostal", "coordenadas": "coordenadas"}' http://localhost:8080/restaurantes
@@ -56,6 +60,7 @@ public class RestaurantesControladorRest {
   )
   @POST
   @Consumes({ MediaType.APPLICATION_JSON })
+  @Secured(AvailableRoles.GESTOR)
   public Response create(
     @ApiParam(
       value = "Restaurante a crear",
@@ -90,6 +95,7 @@ public class RestaurantesControladorRest {
   @PUT
   @Path("/{id}")
   @Consumes({ MediaType.APPLICATION_JSON })
+  @Secured(AvailableRoles.GESTOR)
   public Response update(
     @ApiParam(
       value = "ID del restaurante a actualizar",
@@ -159,6 +165,7 @@ public class RestaurantesControladorRest {
   @PUT
   @Path("/{id}/sitiosDestacados")
   @Consumes({ MediaType.APPLICATION_JSON })
+  @Secured(AvailableRoles.GESTOR)
   public Response setSitiosDestacados(
     @ApiParam(
       value = "ID del restaurante para establecer sitios turísticos destacados",
@@ -192,6 +199,7 @@ public class RestaurantesControladorRest {
   @POST
   @Path("/{id}/platos")
   @Consumes({ MediaType.APPLICATION_JSON })
+  @Secured(AvailableRoles.GESTOR)
   public Response addPlato(
     @ApiParam(
       value = "ID del restaurante al que añadir el plato",
@@ -221,6 +229,7 @@ public class RestaurantesControladorRest {
   )
   @DELETE
   @Path("/{id}/platos/{nombre}")
+  @Secured(AvailableRoles.GESTOR)
   public Response removePlato(
     @ApiParam(
       value = "ID del restaurante del que eliminar el plato",
@@ -254,6 +263,7 @@ public class RestaurantesControladorRest {
   @PUT
   @Path("/{id}/platos")
   @Consumes({ MediaType.APPLICATION_JSON })
+  @Secured(AvailableRoles.GESTOR)
   public Response updatePlato(
     @ApiParam(
       value = "ID del restaurante del que actualizar el plato",
