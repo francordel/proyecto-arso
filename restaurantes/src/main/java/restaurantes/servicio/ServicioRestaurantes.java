@@ -9,7 +9,7 @@ import repositorio.Repositorio;
 import repositorio.RepositorioException;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
-import restaurantes.modelo.SitioTuristico;
+import restaurantes.modelo.SitioTuristico; 
 
 public class ServicioRestaurantes implements IServicioRestaurantes {
 	

@@ -10,8 +10,8 @@ import org.bson.codecs.pojo.annotations.BsonRepresentation;
 import repositorio.Identificable;
 
 public class Restaurante implements Identificable{
-	@BsonId()
-    @BsonRepresentation(BsonType.STRING)
+	@BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
     private String nombre;
     private String coordenadas;
