@@ -10,7 +10,7 @@ import org.bson.codecs.pojo.annotations.BsonRepresentation;
 import repositorio.Identificable;
 
 public class Restaurante implements Identificable{
-	@BsonId
+	@BsonId()
     @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
     private String nombre;
@@ -18,7 +18,10 @@ public class Restaurante implements Identificable{
     private String codigoPostal;
     private List<Plato> platos = new LinkedList<Plato>();
     private List<SitioTuristico> sitios = new LinkedList<SitioTuristico>();
-
+    
+    public Restaurante() {
+    	
+    }
     /*
      * UNION CON OPINIONES
      */

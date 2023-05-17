@@ -71,7 +71,6 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 		platos.add(plato);
 		restaurante.setPlatos(platos);
-		
 	}
 
 	@Override

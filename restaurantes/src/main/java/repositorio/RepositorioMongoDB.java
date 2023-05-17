@@ -2,6 +2,7 @@ package repositorio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bson.BsonValue;
 import org.bson.codecs.configuration.CodecRegistries;
@@ -71,13 +72,15 @@ public abstract class RepositorioMongoDB<T extends Identificable> implements Rep
 		if(v.isNull())
 			return null;
 		
-		return v.toString();
+		return v.asObjectId().getValue().toHexString();
 	}
 
 	@Override
 	public void update(T entity) throws RepositorioException, EntidadNoEncontrada {
 		// Filtro para buscar el documento por su ID
-		Bson filter = Filters.eq("_id", entity.getId());
+		ObjectId objectId;
+        objectId = new ObjectId(entity.getId());
+		Bson filter = Filters.eq("_id", objectId);
 		// Reemplaza un documento en la colección según el filtro especificado
 		UpdateResult result = mongoCollection.replaceOne(filter, entity);
 		// Si no se encontro el documento, lanzar excepción
@@ -89,8 +92,9 @@ public abstract class RepositorioMongoDB<T extends Identificable> implements Rep
 	@Override
 	public void delete(T entity) throws RepositorioException, EntidadNoEncontrada {
 		// Filtro para buscar el documento por su ID
-		Bson filter = Filters.eq("_id", entity.getId());
-		// Eliminar el documento
+		ObjectId objectId;
+        objectId = new ObjectId(entity.getId());
+		Bson filter = Filters.eq("_id", objectId);		// Eliminar el documento
 		DeleteResult result = mongoCollection.deleteOne(filter);
 		// Si no se eliminó el documento, lanzar excepción
 		if (result.getDeletedCount() == 0) {
@@ -140,10 +144,9 @@ public abstract class RepositorioMongoDB<T extends Identificable> implements Rep
 
 	@Override
 	public List<String> getIds() throws RepositorioException {
-		// Obtener una lista de los IDs únicos
-	    List<String> ids = mongoCollection.distinct("_id", String.class).into(new ArrayList<>()); 
+	    // Obtener una lista de los IDs únicos
+	    List<ObjectId> objectIds = mongoCollection.distinct("_id", ObjectId.class).into(new ArrayList<>());
+	    List<String> ids = objectIds.stream().map(ObjectId::toHexString).collect(Collectors.toList());
 	    return ids;
 	}
-
-
 }
