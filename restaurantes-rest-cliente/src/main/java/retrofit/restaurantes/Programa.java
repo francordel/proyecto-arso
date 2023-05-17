@@ -1,9 +1,6 @@
 package retrofit.restaurantes;
 
-import java.net.URI;
-import java.util.List;
-
-import okhttp3.Headers;
+import java.nio.charset.StandardCharsets;
 import okhttp3.MediaType;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
@@ -26,11 +23,13 @@ public class Programa {
         Restaurante restaurante = new Restaurante();
         restaurante.setNombre("My Restaurant");
         restaurante.setCodigoPostal("12345");
-        restaurante.setCoordenadas("40.712776, -74.005974");
+        restaurante.setCoordenadas("40, -74");
 
         Response<Void> createResult = service.createRestaurante(restaurante).execute();
         String restaurantUrl = createResult.headers().get("Location");
-        String restaurantId = restaurantUrl.substring(restaurantUrl.lastIndexOf("/") + 1);
+        String rawId = restaurantUrl.substring(restaurantUrl.lastIndexOf("/") + 1);
+        String decodedId = java.net.URLDecoder.decode(rawId, StandardCharsets.UTF_8);
+        String restaurantId = decodedId.replace("BsonObjectId{value=", "").replace("}", "");
 
         System.out.println("Restaurante creado: " + restaurantUrl);
         System.out.println("ID: " + restaurantId);
@@ -46,7 +45,7 @@ public class Programa {
         }
 
         System.out.println("Restaurante: " + retrievedRestaurant.getNombre());
-        System.out.println("Código Postal: " + retrievedRestaurant.getCodigoPostal());
+        System.out.println("CÃ³digo Postal: " + retrievedRestaurant.getCodigoPostal());
         System.out.println("Coordenadas: " + retrievedRestaurant.getCoordenadas());
 
         // Update the restaurant
@@ -55,7 +54,7 @@ public class Programa {
         System.out.println("Restaurante actualizado");
 
         // Get list of all restaurants
-        Listado listado = (Listado) service.getListadoRestaurantes().execute().body();
+        Listado listado = service.getListadoRestaurantes().execute().body();
         System.out.println("Listado de restaurantes:");
         for (ResumenExtendido restauranteResumen : listado.getRestaurante()) {
             System.out.println("\t" + restauranteResumen.getResumen().getNombre());
@@ -68,7 +67,7 @@ public class Programa {
         plato.setDescripcion("Classic Italian pizza with tomato, mozzarella, and basil");
 
         service.addPlato(restaurantId, plato).execute();
-        System.out.println("Plato añadido");
+        System.out.println("Plato aÃ±adido");
 
         // Update the dish
         plato.setDescripcion("Updated description for Pizza Margherita");
