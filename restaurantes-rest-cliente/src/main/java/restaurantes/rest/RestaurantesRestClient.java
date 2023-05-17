@@ -4,6 +4,7 @@ import java.util.List;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.SitioTuristico;
+import retrofit.restaurantes.Listado;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -42,5 +43,5 @@ public interface RestaurantesRestClient {
     Call<Void> removeRestaurante(@Path("id") String id);
 
     @GET("restaurantes")
-    Call<List<Restaurante>> getListadoRestaurantes();
+    Call<Listado> getListadoRestaurantes();
 }
