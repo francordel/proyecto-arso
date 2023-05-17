@@ -1,10 +1,6 @@
 package retrofit.restaurantes;
 
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
@@ -27,7 +23,7 @@ public class Programa {
         Restaurante restaurante = new Restaurante();
         restaurante.setNombre("My Restaurant");
         restaurante.setCodigoPostal("12345");
-        restaurante.setCoordenadas("40.712776, -74.005974");
+        restaurante.setCoordenadas("40, -74");
 
         Response<Void> createResult = service.createRestaurante(restaurante).execute();
         String restaurantUrl = createResult.headers().get("Location");
