@@ -24,11 +24,8 @@ class ServicioRestaurantesTest {
     @BeforeEach
     void setUp() throws RepositorioException, EntidadNoEncontrada {
         servicioRestaurantes = new ServicioRestaurantes();
-        String id = servicioRestaurantes.create("Test Restaurante", "12345", "1,1");
+        String id = servicioRestaurantes.create("Test Restaurante", "30007", "1,1");
         restaurante = servicioRestaurantes.getRestaurante(id);
-        
-        sitioTuristico = new SitioTuristico();
-        sitioTuristico.setTitulo("Test Sitio Turistico");
     }
 
     @Test
@@ -39,7 +36,6 @@ class ServicioRestaurantesTest {
 
     @Test
     void update() throws RepositorioException, EntidadNoEncontrada {
-    	System.out.println("id update:" + restaurante.getId());
     	servicioRestaurantes.update(restaurante.getId(), "Nuevo Nombre", "54321", "5,5");
         Restaurante restauranteActualizado = servicioRestaurantes.getRestaurante(restaurante.getId());
         assertEquals("Nuevo Nombre", restauranteActualizado.getNombre());
@@ -49,7 +45,6 @@ class ServicioRestaurantesTest {
     void addPlato() throws RepositorioException, EntidadNoEncontrada {
         Plato plato = new Plato();
         plato.setNombre("Test Plato");
-        System.out.println("id addplato:" + restaurante.getId());
         servicioRestaurantes.addPlato(restaurante.getId(), plato);
     }
 
@@ -57,7 +52,6 @@ class ServicioRestaurantesTest {
     void removePlato() throws RepositorioException, EntidadNoEncontrada {
         Plato plato = new Plato();
         plato.setNombre("Test Plato");
-        System.out.println("id rmplato:" + restaurante.getId());
         servicioRestaurantes.addPlato(restaurante.getId(), plato);
         servicioRestaurantes.removePlato(restaurante.getId(), plato.getNombre());
     }
@@ -66,7 +60,6 @@ class ServicioRestaurantesTest {
     void updatePlato() throws RepositorioException, EntidadNoEncontrada {
         Plato plato = new Plato();
         plato.setNombre("Test Plato");
-        System.out.println("id updplato:" + restaurante.getId());
         servicioRestaurantes.addPlato(restaurante.getId(), plato);
         plato.setDescripcion("Nueva Descripcion");
         servicioRestaurantes.updatePlato(restaurante.getId(), plato);
@@ -82,6 +75,12 @@ class ServicioRestaurantesTest {
     void getListadoRestaurantes() throws RepositorioException {
         List<RestauranteResumen> listado = servicioRestaurantes.getListadoRestaurantes();
         assertTrue(listado.size() > 0);
+    }
+    
+    @Test
+    void getSitiosProximos() throws RepositorioException, EntidadNoEncontrada {
+        // Supongamos que tu Restaurante ya tiene algunos sitios asociados
+        List<SitioTuristico> sitios = servicioRestaurantes.getSitiosProximos(restaurante.getId());
     }
 }
 
