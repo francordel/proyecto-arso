@@ -1,5 +1,6 @@
 package restaurantes.servicio;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,6 +72,8 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 		platos.add(plato);
 		restaurante.setPlatos(platos);
+		
+		repositorio.update(restaurante);
 	}
 
 	@Override
@@ -79,14 +82,20 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		Restaurante restaurante = repositorio.getById(id);
 		
 		List<Plato> platos = restaurante.getPlatos();
+		Iterator<Plato> iterator = platos.iterator();
 		
-		for (Plato plato : platos) {
+		while(iterator.hasNext()) {
+			Plato plato = iterator.next();
 			if (plato.getNombre().equals(nombre)) {
-				platos.remove(plato);
-				restaurante.setPlatos(platos);
+				iterator.remove();
+				break;
 			}
 		}
+
+		restaurante.setPlatos(platos);
+		repositorio.update(restaurante);
 	}
+
 
 	@Override
 	public void updatePlato(String id, Plato plato) throws RepositorioException, EntidadNoEncontrada {
@@ -101,6 +110,8 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 				restaurante.setPlatos(platos);
 			}
 		}
+		
+		repositorio.update(restaurante);
 	}
 
 	@Override
