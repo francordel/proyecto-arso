@@ -28,6 +28,8 @@ import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.SitioTuristico;
 import restaurantes.rest.Listado.ResumenExtendido;
+import restaurantes.rest.seguridad.AvailableRoles;
+import restaurantes.rest.seguridad.Secured;
 import restaurantes.servicio.FactoriaServicios;
 import restaurantes.servicio.IServicioRestaurantes;
 import restaurantes.servicio.RestauranteResumen;

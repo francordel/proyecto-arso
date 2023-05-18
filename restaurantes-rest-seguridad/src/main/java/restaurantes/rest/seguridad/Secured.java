@@ -1,4 +1,4 @@
-package bookle.rest.seguridad;
+package restaurantes.rest.seguridad;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

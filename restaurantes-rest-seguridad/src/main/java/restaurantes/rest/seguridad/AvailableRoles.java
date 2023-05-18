@@ -1,4 +1,4 @@
-package bookle.rest.seguridad;
+package restaurantes.rest.seguridad;
 
 public enum AvailableRoles {
 	GESTOR, CLIENTE;

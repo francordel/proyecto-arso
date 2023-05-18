@@ -1,5 +1,6 @@
 package restaurantes;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,6 @@ import restaurantes.servicio.ServicioRestaurantes;
 class ServicioRestaurantesTest {
     private ServicioRestaurantes servicioRestaurantes;
     private Restaurante restaurante;
-    private SitioTuristico sitioTuristico;
 
     @BeforeEach
     void setUp() throws RepositorioException, EntidadNoEncontrada {
@@ -27,6 +27,18 @@ class ServicioRestaurantesTest {
         String id = servicioRestaurantes.create("Test Restaurante", "30007", "1,1");
         restaurante = servicioRestaurantes.getRestaurante(id);
     }
+    
+    @AfterEach
+    void tearDown() {
+        try {
+            servicioRestaurantes.removeRestaurante(restaurante.getId());
+        } catch (EntidadNoEncontrada e) {
+        	
+        } catch (RepositorioException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Test
     void create() {

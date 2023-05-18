@@ -1,9 +1,10 @@
-package pasarela.zuul.seguridad;
+package restaurantes.rest.seguridad;
 
 import java.io.IOException;
 
 import javax.json.Json;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 
 public class Utils {
 
@@ -38,5 +39,15 @@ public class Utils {
 				.add("token_type", "Bearer")
 				.add("token", jwt)				
 				.build().toString();
+	}
+
+	public static Response buildUnauthorizedResponse(String string, String simpleName, String message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Response buildForbiddenResponse(String userRole, String value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

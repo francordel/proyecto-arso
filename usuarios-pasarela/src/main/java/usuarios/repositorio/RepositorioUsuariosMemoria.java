@@ -18,6 +18,10 @@ public class RepositorioUsuariosMemoria extends RepositorioMemoria<Usuario> {
 			Usuario usuario2 = new Usuario("Fran", "fran.j.cordel@gmail.com", "francordel", Rol.CLIENTE);
 			this.add(usuario2);
 			
+			Usuario usuario3 = new Usuario("Pablo", "pablocarrascoegea@gmail.com", "pcarrasco13", Rol.GESTOR);
+			this.add(usuario3);
+			
+			
 		} catch (RepositorioException e) {
 			e.printStackTrace(); // no debe suceder en un repositorio en memoria
 		}

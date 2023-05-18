@@ -1,10 +1,9 @@
-package bookle.rest.seguridad;
+package restaurantes.rest.seguridad;
 
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;

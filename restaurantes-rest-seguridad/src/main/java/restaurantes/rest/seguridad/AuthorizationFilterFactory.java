@@ -1,4 +1,4 @@
-package bookle.rest.seguridad;
+package restaurantes.rest.seguridad;
 
 import java.util.ArrayList;
 import java.util.Arrays;
