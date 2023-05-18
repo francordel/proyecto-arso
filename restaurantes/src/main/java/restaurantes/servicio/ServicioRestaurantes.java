@@ -41,8 +41,9 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	private Repositorio<Restaurante, String> repositorio = FactoriaRepositorios.getRepositorio(Restaurante.class);
 
 	@Override
-	public String create(String nombre, String codigoPostal, String coordenadas) throws RepositorioException {
+	public String create(String nombre, String codigoPostal, String coordenadas, String idGestor) throws RepositorioException {
 		Restaurante restaurante = new Restaurante();
+		restaurante.setIdGestor(idGestor);
 		restaurante.setNombre(nombre);
 		restaurante.setCodigoPostal(codigoPostal);
 		restaurante.setCoordenadas(coordenadas);
@@ -208,7 +209,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 			throws RepositorioException, EntidadNoEncontrada {
 
 		Restaurante restaurante = repositorio.getById(id);
-
+		
 		restaurante.setSitios(sitios);
 	}
 
@@ -301,6 +302,13 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		}
 
 		return resultado;
+	}
+	
+	@Override
+	public Boolean isGestor(String idRestaurante, String id) throws RepositorioException, EntidadNoEncontrada {
+		Restaurante restaurante = repositorio.getById(idRestaurante);
+		
+		return id.equals(restaurante.getIdGestor());
 	}
 
 }

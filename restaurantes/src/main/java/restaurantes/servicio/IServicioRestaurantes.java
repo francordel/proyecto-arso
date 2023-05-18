@@ -13,7 +13,7 @@ public interface IServicioRestaurantes {
 	/** 
 	 * Metodo de alta de un restaurante.
 	 */
-	String create(String nombre, String codigoPostal, String coordenadas) throws RepositorioException;
+	String create(String nombre, String codigoPostal, String coordenadas, String idGestor) throws RepositorioException;
 	
 	/**
 	 * Actualiza un restaurante.
@@ -60,5 +60,5 @@ public interface IServicioRestaurantes {
 	 */
 	List<RestauranteResumen> getListadoRestaurantes() throws RepositorioException;
 	
-	
+	Boolean isGestor(String idRestaurante, String id) throws RepositorioException, EntidadNoEncontrada;
 }

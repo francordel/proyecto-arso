@@ -24,7 +24,7 @@ class ServicioRestaurantesTest {
     @BeforeEach
     void setUp() throws RepositorioException, EntidadNoEncontrada {
         servicioRestaurantes = new ServicioRestaurantes();
-        String id = servicioRestaurantes.create("Test Restaurante", "30007", "1,1");
+        String id = servicioRestaurantes.create("Test Restaurante", "30007", "1,1", "");
         restaurante = servicioRestaurantes.getRestaurante(id);
     }
     

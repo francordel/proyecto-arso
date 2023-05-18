@@ -16,6 +16,7 @@ public class Restaurante implements Identificable{
     private String nombre;
     private String coordenadas;
     private String codigoPostal;
+    private String idGestor;
     private List<Plato> platos = new LinkedList<Plato>();
     private List<SitioTuristico> sitios = new LinkedList<SitioTuristico>();
     
@@ -109,6 +110,14 @@ public class Restaurante implements Identificable{
 	@Override
 	public String toString() {
 		return "Restaurante [id=" + id + ", nombre=" + nombre + ", codigo postal="+codigoPostal+", coordenadas=" + coordenadas + ", sitios=" + sitios + "]";
+	}
+
+	public String getIdGestor() {
+		return idGestor;
+	}
+
+	public void setIdGestor(String idGestor) {
+		this.idGestor = idGestor;
 	}
 
 

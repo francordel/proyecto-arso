@@ -18,8 +18,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
@@ -27,6 +31,8 @@ import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.SitioTuristico;
 import restaurantes.rest.Listado.ResumenExtendido;
+import restaurantes.rest.seguridad.AvailableRoles;
+import restaurantes.rest.seguridad.Secured;
 import restaurantes.servicio.FactoriaServicios;
 import restaurantes.servicio.IServicioRestaurantes;
 import restaurantes.servicio.RestauranteResumen;
@@ -35,325 +41,239 @@ import restaurantes.servicio.RestauranteResumen;
 @Path("restaurantes")
 public class RestaurantesControladorRest {
 
-  private IServicioRestaurantes servicio = FactoriaServicios.getServicio(
-    IServicioRestaurantes.class
-  );
+	private IServicioRestaurantes servicio = FactoriaServicios.getServicio(IServicioRestaurantes.class);
 
-  @Context
-  private UriInfo uriInfo;
+	@Context
+	private UriInfo uriInfo;
 
-  // 1 // void create(Restaurante restaurante)
-  // curl -X POST -H "Content-Type: application/json" -d '{"nombre": "nombre", "codigoPostal": "codigoPostal", "coordenadas": "coordenadas"}' http://localhost:8080/restaurantes
+	@Context
+	HttpHeaders headers;
 
-  @ApiOperation(value = "Crea un restaurante")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_CREATED,
-        message = "Restaurante creado correctamente"
-      ),
-    }
-  )
-  @POST
-  @Consumes({ MediaType.APPLICATION_JSON })
-  public Response create(
-    @ApiParam(
-      value = "Restaurante a crear",
-      required = true
-    ) Restaurante restaurante
-  ) throws RepositorioException {
-    String id = servicio.create(
-      restaurante.getNombre(),
-      restaurante.getCodigoPostal(),
-      restaurante.getCoordenadas()
-    );
-    URI uri = uriInfo.getAbsolutePathBuilder().path(id).build();
-    return Response.created(uri).build();
-  }
+	@Context
+	private SecurityContext securityContext;
 
-  // 2 // void update(String id, Restaurante restaurante)
-  // curl -X PUT -H "Content-Type: application/json" -d '{"nombre": "nombre", "codigoPostal": "codigoPostal", "coordenadas": "coordenadas"}' http://localhost:8080/restaurantes/{id}
+	// 1 // void create(Restaurante restaurante)
+	// curl -X POST -H "Content-Type: application/json" -d '{"nombre": "nombre",
+	// "codigoPostal": "codigoPostal", "coordenadas": "coordenadas"}'
+	// http://localhost:8080/restaurantes
 
-  @ApiOperation(value = "Actualiza un restaurante")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_NO_CONTENT,
-        message = "Restaurante actualizado correctamente"
-      ),
-      @ApiResponse(
-        code = HttpServletResponse.SC_NOT_FOUND,
-        message = "Restaurante no encontrado"
-      ),
-    }
-  )
-  @PUT
-  @Path("/{id}")
-  @Consumes({ MediaType.APPLICATION_JSON })
-  public Response update(
-    @ApiParam(
-      value = "ID del restaurante a actualizar",
-      required = true
-    ) @PathParam("id") String id,
-    @ApiParam(
-      value = "Restaurante con datos actualizados",
-      required = true
-    ) Restaurante restaurante
-  ) throws RepositorioException, EntidadNoEncontrada {
-    servicio.update(
-      id,
-      restaurante.getNombre(),
-      restaurante.getCodigoPostal(),
-      restaurante.getCoordenadas()
-    );
-    return Response.status(Response.Status.NO_CONTENT).build();
-  }
+	@ApiOperation(value = "Crea un restaurante")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_CREATED, message = "Restaurante creado correctamente"), })
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Secured(AvailableRoles.GESTOR)
+	public Response create(@ApiParam(value = "Restaurante a crear", required = true) Restaurante restaurante)
+			throws RepositorioException {
 
-  // 3 // List<SitioTuristico> getSitiosProximos(String id)
-  // curl -X GET http://localhost:8080/restaurantes/{id}/sitiosProximos
+		String id = servicio.create(restaurante.getNombre(), restaurante.getCodigoPostal(),
+				restaurante.getCoordenadas(), this.securityContext.getUserPrincipal().getName());
 
-  @ApiOperation(value = "Obtiene sitios turísticos próximos a un restaurante")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_OK,
-        message = "Sitios turísticos obtenidos correctamente"
-      ),
-      @ApiResponse(
-        code = HttpServletResponse.SC_NOT_FOUND,
-        message = "Restaurante no encontrado"
-      ),
-    }
-  )
-  @GET
-  @Path("/{id}/sitiosProximos")
-  @Produces({ MediaType.APPLICATION_JSON })
-  public Response getSitiosProximos(
-    @ApiParam(
-      value = "ID del restaurante para buscar sitios turísticos próximos",
-      required = true
-    ) @PathParam("id") String id
-  ) throws RepositorioException, EntidadNoEncontrada {
-    List<SitioTuristico> sitios = servicio.getSitiosProximos(id);
-    return Response.status(Response.Status.OK).entity(sitios).build();
-  }
+		// Get headers
+		MultivaluedMap<String, String> allHeaders = headers.getRequestHeaders();
+		String forwardedHost = allHeaders.getFirst("X-Forwarded-Host");
+		String forwardedProto = allHeaders.getFirst("X-Forwarded-Proto");
 
-  // 4 // void setSitiosDestacados(String id, List<SitioTuristico> sitios)
-  // curl -X PUT -H "Content-Type: application/json" -d '[{"nombre": "nombre", "descripcion": "descripcion"}]' http://localhost:8080/restaurantes/{id}/sitiosDestacados
+		// Build URI
+		UriBuilder builder = UriBuilder.fromPath("/");
+		if (forwardedProto != null) {
+			builder.scheme(forwardedProto);
+		}
+		if (forwardedHost != null) {
+			builder.host(forwardedHost);
+		}
+		builder.path("/restaurantes/" + id);
+		URI uri = builder.build();
 
-  @ApiOperation(
-    value = "Establece sitios turísticos destacados para un restaurante"
-  )
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_NO_CONTENT,
-        message = "Sitios turísticos destacados establecidos correctamente"
-      ),
-      @ApiResponse(
-        code = HttpServletResponse.SC_NOT_FOUND,
-        message = "Restaurante no encontrado"
-      ),
-    }
-  )
-  @PUT
-  @Path("/{id}/sitiosDestacados")
-  @Consumes({ MediaType.APPLICATION_JSON })
-  public Response setSitiosDestacados(
-    @ApiParam(
-      value = "ID del restaurante para establecer sitios turísticos destacados",
-      required = true
-    ) @PathParam("id") String id,
-    @ApiParam(
-      value = "Lista de sitios turísticos destacados",
-      required = true
-    ) List<SitioTuristico> sitios
-  ) throws RepositorioException, EntidadNoEncontrada {
-    servicio.setSitiosDestacados(id, sitios);
-    return Response.status(Response.Status.NO_CONTENT).build();
-  }
+		return Response.created(uri).build();
+	}
 
-  // 5 // void addPlato(String id, Plato plato)
-  // curl -X POST -H "Content-Type: application/json" -d '{"nombre": "nombre", "descripcion": "descripcion"}' http://localhost:8080/restaurantes/{id}/platos
+	// 2 // void update(String id, Restaurante restaurante)
+	// curl -X PUT -H "Content-Type: application/json" -d '{"nombre": "nombre",
+	// "codigoPostal": "codigoPostal", "coordenadas": "coordenadas"}'
+	// http://localhost:8080/restaurantes/{id}
 
-  @ApiOperation(value = "Añade un plato a un restaurante")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_CREATED,
-        message = "Plato añadido correctamente"
-      ),
-      @ApiResponse(
-        code = HttpServletResponse.SC_NOT_FOUND,
-        message = "Restaurante no encontrado"
-      ),
-    }
-  )
-  @POST
-  @Path("/{id}/platos")
-  @Consumes({ MediaType.APPLICATION_JSON })
-  public Response addPlato(
-    @ApiParam(
-      value = "ID del restaurante al que añadir el plato",
-      required = true
-    ) @PathParam("id") String id,
-    @ApiParam(value = "Plato a añadir", required = true) Plato plato
-  ) throws RepositorioException, EntidadNoEncontrada {
-    servicio.addPlato(id, plato);
-    return Response.status(Response.Status.CREATED).build();
-  }
+	@ApiOperation(value = "Actualiza un restaurante")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "Restaurante actualizado correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante no encontrado"), })
+	@PUT
+	@Path("/{id}")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Secured(AvailableRoles.GESTOR)
+	public Response update(
+			@ApiParam(value = "ID del restaurante a actualizar", required = true) @PathParam("id") String id,
+			@ApiParam(value = "Restaurante con datos actualizados", required = true) Restaurante restaurante)
+			throws RepositorioException, EntidadNoEncontrada {
 
-  // 6 // void removePlato(String id, String nombre)
-  // curl -X DELETE http://localhost:8080/restaurantes/{id}/platos/{nombre}
+			if (servicio.isGestor(id, this.securityContext.getUserPrincipal().getName())) {
+				servicio.update(id, restaurante.getNombre(), restaurante.getCodigoPostal(), restaurante.getCoordenadas());
+			}
+		
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
 
-  @ApiOperation(value = "Elimina un plato de un restaurante")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_NO_CONTENT,
-        message = "Plato eliminado correctamente"
-      ),
-      @ApiResponse(
-        code = HttpServletResponse.SC_NOT_FOUND,
-        message = "Restaurante o plato no encontrado"
-      ),
-    }
-  )
-  @DELETE
-  @Path("/{id}/platos/{nombre}")
-  public Response removePlato(
-    @ApiParam(
-      value = "ID del restaurante del que eliminar el plato",
-      required = true
-    ) @PathParam("id") String id,
-    @ApiParam(
-      value = "Nombre del plato a eliminar",
-      required = true
-    ) @PathParam("nombre") String nombre
-  ) throws Exception {
-    servicio.removePlato(id, nombre);
-    return Response.status(Response.Status.NO_CONTENT).build();
-  }
+	// 3 // List<SitioTuristico> getSitiosProximos(String id)
+	// curl -X GET http://localhost:8080/restaurantes/{id}/sitiosProximos
 
-  // 7 // void updatePlato(String id, Plato plato)
-  // curl -X PUT -H "Content-Type: application/json" -d '{"nombre": "nombre", "descripcion": "descripcion"}' http://localhost:8080/restaurantes
+	@ApiOperation(value = "Obtiene sitios turísticos próximos a un restaurante")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_OK, message = "Sitios turísticos obtenidos correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante no encontrado"), })
+	@GET
+	@Path("/{id}/sitiosProximos")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getSitiosProximos(
+			@ApiParam(value = "ID del restaurante para buscar sitios turísticos próximos", required = true) @PathParam("id") String id)
+			throws RepositorioException, EntidadNoEncontrada {
+		List<SitioTuristico> sitios = servicio.getSitiosProximos(id);
+		return Response.status(Response.Status.OK).entity(sitios).build();
+	}
 
-  @ApiOperation(value = "Actualiza un plato de un restaurante")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_NO_CONTENT,
-        message = "Plato actualizado correctamente"
-      ),
-      @ApiResponse(
-        code = HttpServletResponse.SC_NOT_FOUND,
-        message = "Restaurante o plato no encontrado"
-      ),
-    }
-  )
-  @PUT
-  @Path("/{id}/platos")
-  @Consumes({ MediaType.APPLICATION_JSON })
-  public Response updatePlato(
-    @ApiParam(
-      value = "ID del restaurante del que actualizar el plato",
-      required = true
-    ) @PathParam("id") String id,
-    @ApiParam(
-      value = "Plato con datos actualizados",
-      required = true
-    ) Plato plato
-  ) throws RepositorioException, EntidadNoEncontrada {
-    servicio.updatePlato(id, plato);
-    return Response.status(Response.Status.NO_CONTENT).build();
-  }
+	// 4 // void setSitiosDestacados(String id, List<SitioTuristico> sitios)
+	// curl -X PUT -H "Content-Type: application/json" -d '[{"nombre": "nombre",
+	// "descripcion": "descripcion"}]'
+	// http://localhost:8080/restaurantes/{id}/sitiosDestacados
 
-  // 8 // Restaurante getRestaurante(String id)
-  // curl -X GET http://localhost:8080/restaurantes/{id}
+	@ApiOperation(value = "Establece sitios turísticos destacados para un restaurante")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "Sitios turísticos destacados establecidos correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante no encontrado"), })
+	@PUT
+	@Path("/{id}/sitiosDestacados")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Secured(AvailableRoles.GESTOR)
+	public Response setSitiosDestacados(
+			@ApiParam(value = "ID del restaurante para establecer sitios turísticos destacados", required = true) @PathParam("id") String id,
+			@ApiParam(value = "Lista de sitios turísticos destacados", required = true) List<SitioTuristico> sitios)
+			throws RepositorioException, EntidadNoEncontrada {
+		
+		if (servicio.isGestor(id, this.securityContext.getUserPrincipal().getName())) {
+			servicio.setSitiosDestacados(id, sitios);
+		}
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
 
-  @ApiOperation(value = "Obtiene un restaurante por ID")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_OK,
-        message = "Restaurante obtenido correctamente"
-      ),
-      @ApiResponse(
-        code = HttpServletResponse.SC_NOT_FOUND,
-        message = "Restaurante no encontrado"
-      ),
-    }
-  )
-  @GET
-  @Path("/{id}")
-  @Produces({ MediaType.APPLICATION_JSON })
-  public Response getRestaurante(
-    @ApiParam(
-      value = "ID del restaurante a obtener",
-      required = true
-    ) @PathParam("id") String id
-  ) throws Exception {
-    return Response
-      .status(Response.Status.OK)
-      .entity(servicio.getRestaurante(id))
-      .build();
-  }
+	// 5 // void addPlato(String id, Plato plato)
+	// curl -X POST -H "Content-Type: application/json" -d '{"nombre": "nombre",
+	// "descripcion": "descripcion"}' http://localhost:8080/restaurantes/{id}/platos
 
-  // 9 // void removeRestaurante(String id)
-  // curl -X DELETE http://localhost:8080/restaurantes/{id}
+	@ApiOperation(value = "Añade un plato a un restaurante")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_CREATED, message = "Plato añadido correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante no encontrado"), })
+	@POST
+	@Path("/{id}/platos")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Secured(AvailableRoles.GESTOR)
+	public Response addPlato(
+			@ApiParam(value = "ID del restaurante al que añadir el plato", required = true) @PathParam("id") String id,
+			@ApiParam(value = "Plato a añadir", required = true) Plato plato)
+			throws RepositorioException, EntidadNoEncontrada {
+		if (servicio.isGestor(id, this.securityContext.getUserPrincipal().getName())) {
+			servicio.addPlato(id, plato);
+		}
+		return Response.status(Response.Status.CREATED).build();
+	}
 
-  @ApiOperation(value = "Elimina un restaurante por ID")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_NO_CONTENT,
-        message = "Restaurante eliminado correctamente"
-      ),
-      @ApiResponse(
-        code = HttpServletResponse.SC_NOT_FOUND,
-        message = "Restaurante no encontrado"
-      ),
-    }
-  )
-  @DELETE
-  @Path("/{id}")
-  public Response removeRestaurante(
-    @ApiParam(
-      value = "ID del restaurante a eliminar",
-      required = true
-    ) @PathParam("id") String id
-  ) throws Exception {
-    servicio.removeRestaurante(id);
-    return Response.status(Response.Status.NO_CONTENT).build();
-  }
+	// 6 // void removePlato(String id, String nombre)
+	// curl -X DELETE http://localhost:8080/restaurantes/{id}/platos/{nombre}
 
-  // 10 // Listado getListadoRestaurantes()
-  // curl -X GET http://localhost:8080/restaurantes
+	@ApiOperation(value = "Elimina un plato de un restaurante")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "Plato eliminado correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante o plato no encontrado"), })
+	@DELETE
+	@Path("/{id}/platos/{nombre}")
+	@Secured(AvailableRoles.GESTOR)
+	public Response removePlato(
+			@ApiParam(value = "ID del restaurante del que eliminar el plato", required = true) @PathParam("id") String id,
+			@ApiParam(value = "Nombre del plato a eliminar", required = true) @PathParam("nombre") String nombre)
+			throws Exception {
+		if (servicio.isGestor(id, this.securityContext.getUserPrincipal().getName())) {
+			servicio.removePlato(id, nombre);
+		}
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
 
-  @ApiOperation(value = "Obtiene el listado de restaurantes")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        code = HttpServletResponse.SC_OK,
-        message = "Listado de restaurantes obtenido correctamente"
-      ),
-    }
-  )
-  @GET
-  @Produces({ MediaType.APPLICATION_JSON })
-  public Response getListadoRestaurantes() throws Exception {
-    List<RestauranteResumen> resultado = servicio.getListadoRestaurantes();
-    LinkedList<ResumenExtendido> extendido = new LinkedList<Listado.ResumenExtendido>();
-    for (RestauranteResumen restauranteResumen : resultado) {
-      ResumenExtendido resumenExtendido = new ResumenExtendido();
-      resumenExtendido.setResumen(restauranteResumen);
-      String id = restauranteResumen.getId();
-      URI nuevaURL = uriInfo.getAbsolutePathBuilder().path(id).build();
-      resumenExtendido.setUrl(nuevaURL.toString());
-      extendido.add(resumenExtendido);
-    }
-    Listado listado = new Listado();
-    listado.setRestaurante(extendido);
-    return Response.ok(listado).build();
-  }
+	// 7 // void updatePlato(String id, Plato plato)
+	// curl -X PUT -H "Content-Type: application/json" -d '{"nombre": "nombre",
+	// "descripcion": "descripcion"}' http://localhost:8080/restaurantes
+
+	@ApiOperation(value = "Actualiza un plato de un restaurante")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "Plato actualizado correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante o plato no encontrado"), })
+	@PUT
+	@Path("/{id}/platos")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Secured(AvailableRoles.GESTOR)
+	public Response updatePlato(
+			@ApiParam(value = "ID del restaurante del que actualizar el plato", required = true) @PathParam("id") String id,
+			@ApiParam(value = "Plato con datos actualizados", required = true) Plato plato)
+			throws RepositorioException, EntidadNoEncontrada {
+		if (servicio.isGestor(id, this.securityContext.getUserPrincipal().getName())) {
+			servicio.updatePlato(id, plato);
+		}
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
+
+	// 8 // Restaurante getRestaurante(String id)
+	// curl -X GET http://localhost:8080/restaurantes/{id}
+
+	@ApiOperation(value = "Obtiene un restaurante por ID")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_OK, message = "Restaurante obtenido correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante no encontrado"), })
+	@GET
+	@Path("/{id}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getRestaurante(
+			@ApiParam(value = "ID del restaurante a obtener", required = true) @PathParam("id") String id)
+			throws Exception {
+		return Response.status(Response.Status.OK).entity(servicio.getRestaurante(id)).build();
+	}
+
+	// 9 // void removeRestaurante(String id)
+	// curl -X DELETE http://localhost:8080/restaurantes/{id}
+
+	@ApiOperation(value = "Elimina un restaurante por ID")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "Restaurante eliminado correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante no encontrado"), })
+	@DELETE
+	@Path("/{id}")
+	@Secured(AvailableRoles.GESTOR)
+	public Response removeRestaurante(
+			@ApiParam(value = "ID del restaurante a eliminar", required = true) @PathParam("id") String id)
+			throws Exception {
+		if (servicio.isGestor(id, this.securityContext.getUserPrincipal().getName())) {
+			servicio.removeRestaurante(id);
+		}
+		return Response.status(Response.Status.NO_CONTENT).build();
+	}
+
+	// 10 // Listado getListadoRestaurantes()
+	// curl -X GET http://localhost:8080/restaurantes
+
+	@ApiOperation(value = "Obtiene el listado de restaurantes")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_OK, message = "Listado de restaurantes obtenido correctamente"), })
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getListadoRestaurantes() throws Exception {
+		List<RestauranteResumen> resultado = servicio.getListadoRestaurantes();
+		LinkedList<ResumenExtendido> extendido = new LinkedList<Listado.ResumenExtendido>();
+		for (RestauranteResumen restauranteResumen : resultado) {
+			ResumenExtendido resumenExtendido = new ResumenExtendido();
+			resumenExtendido.setResumen(restauranteResumen);
+			String id = restauranteResumen.getId();
+			URI nuevaURL = uriInfo.getAbsolutePathBuilder().path(id).build();
+			resumenExtendido.setUrl(nuevaURL.toString());
+			extendido.add(resumenExtendido);
+		}
+		Listado listado = new Listado();
+		listado.setRestaurante(extendido);
+		return Response.ok(listado).build();
+	}
 }
