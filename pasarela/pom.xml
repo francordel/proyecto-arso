@@ -8,9 +8,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>arso</groupId>
-	<artifactId>pasarela-zuul</artifactId>
+	<artifactId>pasarela</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>pasarela-zuul</name>
+	<name>pasarela</name>
 	<description>API Gateway utilizando Zuul</description>
 
 	<properties>
