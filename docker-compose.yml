@@ -1,12 +1,12 @@
 #Establecemos la version del docker-compose
-version: '3.1'
+version: '3.8'
 #Declaramos los servicios que se van a gestionar desde doker compose
 services:
   opiniones:
       build: ./opiniones-rest
       restart: always
       ports:
-        - 5002:5000
+        - 5002:5002
       environment:
         URI_MONGODB: mongodb://root:example@mongo:27017/
   # Servicio que levanta una bbdd de mongo
@@ -35,12 +35,25 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
   
+
   restaurantes:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.restaurantes
     ports:
       - 8080:8080
-      
+
   pasarela:
-    build: ./pasarela
+    build: 
+      context: .
+      dockerfile: Dockerfile.pasarela
     ports:
       - 8090:8090
+    environment:
+     - zuul.routes.restaurantes.path=/restaurantes/**
+     - zuul.routes.restaurantes.url=http://restaurantes:8080/api/restaurantes
+     - zuul.routes.opiniones.path=/opiniones/**
+     - zuul.routes.opiniones.url=http://opiniones:5002/api/opiniones
+    depends_on:
+      - restaurantes
+      - opiniones

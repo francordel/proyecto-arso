@@ -1,0 +1,32 @@
+# Imagen base
+FROM maven:3.8.5-jdk-11 AS builder
+
+# Directorio de trabajo
+WORKDIR /app-base/
+# Copiar el pom.xml y descargar las dependencias
+COPY usuarios-pasarela/pom.xml .
+RUN mvn -X -e -B dependency:resolve
+# Copiar el código fuente y compilar el proyecto
+COPY usuarios-pasarela/src ./src
+RUN mvn install
+
+# Directorio de trabajo
+WORKDIR /app/
+# Copiar el pom.xml y descargar las dependencias
+COPY pasarela/pom.xml .
+RUN mvn -X -e -B dependency:resolve
+# Copiar el código fuente y compilar el proyecto
+COPY pasarela/src ./src
+RUN mvn package
+
+# Crear la imagen fina
+FROM openjdk:11-jre-slim
+
+# Copiar el archivo jar de la pasarela a la imagen
+COPY --from=builder /app/target/pasarela-*.jar /pasarela.jar
+
+# Exponer el puerto que utiliza la pasarela
+EXPOSE 8090
+
+# Comando para ejecutar la aplicación
+CMD ["java", "-jar", "/pasarela.jar"]
