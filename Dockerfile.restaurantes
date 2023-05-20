@@ -7,7 +7,7 @@ FROM maven:3.8.5-jdk-11 AS builder
 
 WORKDIR /app-base/
 COPY restaurantes/pom.xml .
-RUN mvn -e -B dependency:resolve
+RUN mvn -X -e -B dependency:resolve
 COPY restaurantes/src ./src
 RUN mvn install
 
