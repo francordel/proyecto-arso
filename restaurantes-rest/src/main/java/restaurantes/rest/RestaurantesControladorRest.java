@@ -41,13 +41,20 @@ import restaurantes.servicio.RestauranteResumen;
 @Path("restaurantes")
 public class RestaurantesControladorRest {
 
-	private IServicioRestaurantes servicio = FactoriaServicios.getServicio(IServicioRestaurantes.class);
-
+	private IServicioRestaurantes servicio;
+	
 	@Context
 	private UriInfo uriInfo;
 
 	@Context
 	HttpHeaders headers;
+
+	public RestaurantesControladorRest() {
+		try {
+			this.servicio = FactoriaServicios.getServicio(IServicioRestaurantes.class);
+		} catch (Exception e) {
+		}
+	}
 
 	@Context
 	private SecurityContext securityContext;

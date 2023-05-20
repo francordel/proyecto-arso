@@ -1,7 +1,11 @@
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using RabbitMQ.Client;
 using opiniones_rest.Modelo;
+using opiniones_rest.Eventos;
 using Repositorio;
 
 namespace opiniones_rest.Servicio
@@ -49,12 +53,15 @@ namespace opiniones_rest.Servicio
     public class ServicioOpiniones : IServicioOpiniones
     {
 
+        private readonly ConnectionFactory _factory;
+
         private Repositorio<Opinion, String> repositorio;
         public ServicioOpiniones(Repositorio<Opinion, String> repositorio)
         {
-
+            _factory = new ConnectionFactory() { Uri = new Uri("amqps://lsbdhozw:nIyxGm7_zrPRixhO_iY0rM9Ptrqfw9U0@whale.rmq.cloudamqp.com/lsbdhozw") };
             this.repositorio = repositorio;
         }
+        
         public string Create(Opinion opinion)
         {
             return repositorio.Add(opinion);
@@ -65,6 +72,7 @@ namespace opiniones_rest.Servicio
 
             repositorio.Update(opinion);
         }
+
         public bool AddValoracion(string id, Valoracion valoracion)
         {
             Opinion opinion = repositorio.GetById(id);
@@ -76,7 +84,36 @@ namespace opiniones_rest.Servicio
             // Añadimos la nueva valoración a la lista
             valoraciones.Add(valoracion);
             repositorio.Update(opinion);
+
+            // Emitimos el evento "nueva valoración"
+            var evento = new EventoNuevaValoracion
+            {
+                IdOpinion = id,
+                NuevaValoracion = valoracion,
+                NumeroValoraciones = opinion.NumeroValoraciones,
+                CalificacionMedia = opinion.ValoracionMedia
+            };
+
+            EmitirEventoNuevaValoracion(evento);
+
             return true;
+        }
+
+        private void EmitirEventoNuevaValoracion(EventoNuevaValoracion evento)
+        {
+            using (var connection = _factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                channel.ExchangeDeclare("evento.nueva.valoracion", ExchangeType.Fanout);
+
+                var message = JsonSerializer.Serialize(evento);
+                var body = Encoding.UTF8.GetBytes(message);
+
+                channel.BasicPublish(exchange: "evento.nueva.valoracion",
+                                     routingKey: "",
+                                     basicProperties: null,
+                                     body: body);
+            }
         }
 
         public Opinion GetOpinion(string id)

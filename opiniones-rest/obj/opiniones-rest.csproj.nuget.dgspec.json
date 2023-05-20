@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/src/opiniones-rest/opiniones-rest.csproj": {}
+    "C:\\Users\\pablo\\OneDrive\\Escritorio\\practicaArso\\proyecto-arso\\opiniones-rest\\opiniones-rest.csproj": {}
   },
   "projects": {
-    "/src/opiniones-rest/opiniones-rest.csproj": {
+    "C:\\Users\\pablo\\OneDrive\\Escritorio\\practicaArso\\proyecto-arso\\opiniones-rest\\opiniones-rest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/src/opiniones-rest/opiniones-rest.csproj",
+        "projectUniqueName": "C:\\Users\\pablo\\OneDrive\\Escritorio\\practicaArso\\proyecto-arso\\opiniones-rest\\opiniones-rest.csproj",
         "projectName": "opiniones-rest",
-        "projectPath": "/src/opiniones-rest/opiniones-rest.csproj",
-        "packagesPath": "/root/.nuget/packages/",
-        "outputPath": "/src/opiniones-rest/obj/",
+        "projectPath": "C:\\Users\\pablo\\OneDrive\\Escritorio\\practicaArso\\proyecto-arso\\opiniones-rest\\opiniones-rest.csproj",
+        "packagesPath": "C:\\Users\\pablo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pablo\\OneDrive\\Escritorio\\practicaArso\\proyecto-arso\\opiniones-rest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/root/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\pablo\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -42,6 +42,10 @@
               "target": "Package",
               "version": "[2.15.0, )"
             },
+            "RabbitMQ.Client": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
@@ -58,6 +62,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x86",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -66,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.408/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }
