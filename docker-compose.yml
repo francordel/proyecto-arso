@@ -49,5 +49,10 @@ services:
       dockerfile: Dockerfile.pasarela
     ports:
       - 8090:8090
+    environment:
+     - zuul.routes.restaurantes.path=/restaurantes/**
+     - zuul.routes.restaurantes.url=http://restaurantes:8080/api/restaurantes
+     - zuul.routes.opiniones.path =/opiniones/**
+     - zuul.routes.opiniones.url =http://api:5002/api/opiniones
     depends_on:
       - restaurantes
