@@ -50,14 +50,24 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 	private Repositorio<Restaurante, String> repositorio = FactoriaRepositorios.getRepositorio(Restaurante.class);
 	
+	private Connection connection;
+	private Channel channel;
+
 	public ServicioRestaurantes() {
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
 			factory.setUri("amqps://lsbdhozw:nIyxGm7_zrPRixhO_iY0rM9Ptrqfw9U0@whale.rmq.cloudamqp.com/lsbdhozw");
-
-			Connection connection = factory.newConnection();
-			Channel channel = connection.createChannel();
-
+			
+			this.connection = factory.newConnection();
+			this.channel = connection.createChannel();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void subscribeToRabbitMQ() {
+		try {
 			final String exchangeName = "evento.nueva.valoracion";
 			final String queueName = "valoracion-queue";
 			final String bindingKey = "";
@@ -69,7 +79,6 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 			Map<String, Object> properties = null; // sin propiedades
 
 			channel.queueDeclare(queueName, durable, exclusive, autodelete, properties);
-
 			channel.queueBind(queueName, exchangeName, bindingKey);
 
 			boolean autoAck = false;
@@ -79,7 +88,6 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 			// Consumidor push
 
 			channel.basicConsume(queueName, autoAck, etiquetaConsumidor,
-
 					new DefaultConsumer(channel) {
 						@Override
 						public void handleDelivery(String consumerTag, Envelope envelope,

@@ -61,4 +61,6 @@ public interface IServicioRestaurantes {
 	List<RestauranteResumen> getListadoRestaurantes() throws RepositorioException;
 	
 	Boolean isGestor(String idRestaurante, String id) throws RepositorioException, EntidadNoEncontrada;
+
+	void subscribeToRabbitMQ();
 }
