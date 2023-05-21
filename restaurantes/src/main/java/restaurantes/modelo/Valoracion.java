@@ -8,6 +8,9 @@ public class Valoracion {
     private int calificacion;
     private String comentario;
     
+    public Valoracion() {
+		// TODO Auto-generated constructor stub
+	}
     
 	public Valoracion(String correoElectronico, LocalDate fechaRegistro, int calificacion, String comentario) {
 		this.correoElectronico = correoElectronico;
