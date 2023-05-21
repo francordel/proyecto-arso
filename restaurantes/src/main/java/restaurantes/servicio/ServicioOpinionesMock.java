@@ -1,8 +1,8 @@
 package restaurantes.servicio;
+
 import java.util.*;
 
 import restaurantes.modelo.Opinion;
-import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.Valoracion;
 
 public class ServicioOpinionesMock implements IServicioOpiniones {
@@ -16,11 +16,11 @@ public class ServicioOpinionesMock implements IServicioOpiniones {
     }
 
     @Override
-    public void crearOpinion(Restaurante restaurante) {
+    public String crearOpinion(String restaurante) {
         String idOpinion = generateId();
-        Opinion opinion = new Opinion(restaurante.getNombre(), new LinkedList<Valoracion>());
+        Opinion opinion = new Opinion(restaurante, new LinkedList<Valoracion>());
         this.opiniones.put(idOpinion, opinion);
-        restaurante.setIdOpinion(idOpinion);
+		return idOpinion;
     }
 
     @Override
