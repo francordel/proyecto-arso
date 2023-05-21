@@ -45,7 +45,7 @@ public class Programa {
         }
 
         System.out.println("Restaurante: " + retrievedRestaurant.getNombre());
-        System.out.println("CÃ³digo Postal: " + retrievedRestaurant.getCodigoPostal());
+        System.out.println("Codigo Postal: " + retrievedRestaurant.getCodigoPostal());
         System.out.println("Coordenadas: " + retrievedRestaurant.getCoordenadas());
 
         // Update the restaurant
@@ -67,7 +67,7 @@ public class Programa {
         plato.setDescripcion("Classic Italian pizza with tomato, mozzarella, and basil");
 
         service.addPlato(restaurantId, plato).execute();
-        System.out.println("Plato aÃ±adido");
+        System.out.println("Plato añadido");
 
         // Update the dish
         plato.setDescripcion("Updated description for Pizza Margherita");

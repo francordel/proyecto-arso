@@ -93,7 +93,15 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 							EventoNuevaValoracion evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
 							
-							processEvent(evento);
+							try {
+								processEvent(evento);
+							} catch (RepositorioException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (EntidadNoEncontrada e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 
 							// Confirma el procesamiento
 							channel.basicAck(deliveryTag, false);
@@ -105,20 +113,17 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		}
 	}
 	
-	private void processEvent(EventoNuevaValoracion evento) {
-		// En este lugar podrías, por ejemplo, almacenar la información del evento en
-		// una base de datos.
-		// En este ejemplo, simplemente imprimimos los detalles del evento.
-
-		System.out.println("Id de la Opinión: " + evento.getIdOpinion());
-		System.out.println("Número de Valoraciones: " + evento.getNumeroValoraciones());
-		System.out.println("Calificación Media: " + evento.getCalificacionMedia());
-
-		Valoracion valoracion = evento.getNuevaValoracion();
-		System.out.println("Nueva Valoración: ");
-		System.out.println("Correo electrónico: " + valoracion.getCorreoElectronico());
-		System.out.println("Calificación: " + valoracion.getCalificacion());
-		System.out.println("Comentario: " + valoracion.getComentario());
+	public void processEvent(EventoNuevaValoracion evento) throws RepositorioException, EntidadNoEncontrada {
+		List<Restaurante> restaurantes = repositorio.getAll();
+	    for (Restaurante restaurante : restaurantes) {
+	        if (restaurante.getIdOpinion().equals(evento.getIdOpinion())) {
+	            restaurante.setCalificacionMedia(evento.getCalificacionMedia());
+	            restaurante.setNumValoraciones(evento.getNumeroValoraciones());
+	    		repositorio.update(restaurante);
+	            break;
+	        }
+	    }
+	    
 	}
 
 	@Override
@@ -293,6 +298,8 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		Restaurante restaurante = repositorio.getById(id);
 
 		restaurante.setSitios(sitios);
+		
+		repositorio.update(restaurante);
 	}
 
 	@Override
