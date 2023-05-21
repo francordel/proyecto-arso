@@ -93,17 +93,18 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 							EventoNuevaValoracion evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
 							
-							try {
-								processEvent(evento);
-							} catch (RepositorioException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (EntidadNoEncontrada e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+//							try {
+//								processEvent(evento);
+//							} catch (RepositorioException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							} catch (EntidadNoEncontrada e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
 
 							// Confirma el procesamiento
+							System.out.println(evento);
 							channel.basicAck(deliveryTag, false);
 						}
 					});
