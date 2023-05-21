@@ -31,6 +31,7 @@ import restaurantes.modelo.EventoNuevaValoracion;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.SitioTuristico;
+import restaurantes.modelo.Valoracion;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -46,6 +47,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	Document documento;
 	DocumentBuilder analizador;
 	InputStreamReader fuente;
+	ServicioOpiniones servicioOpiniones = new ServicioOpiniones();
 
 	private Repositorio<Restaurante, String> repositorio = FactoriaRepositorios.getRepositorio(Restaurante.class);
 
@@ -53,6 +55,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	public ServicioRestaurantes() {
 		
 	}
+	
 	
 	public void subscribeToRabbitMQ() {	
 		try {
@@ -90,15 +93,11 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 							long deliveryTag = envelope.getDeliveryTag();
 
 							String contenido = new String(body);
-							System.out.println("Before mapper");
 							ObjectMapper mapper = new ObjectMapper(); // Jackson
-							System.out.println("after mapper");
 							EventoNuevaValoracion evento = null;
-							System.out.println("prueba");
 							try {
 							    System.out.println("Contenido: " + contenido);
 							    evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
-							    System.out.println("after event");
 							} catch (JsonProcessingException e) {
 							    System.out.println("Error al deserializar el evento");
 							    e.printStackTrace();
@@ -412,6 +411,26 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		Restaurante restaurante = repositorio.getById(idRestaurante);
 
 		return id.equals(restaurante.getIdGestor());
+	}
+
+
+	@Override
+	public void crearOpinion(String idRestaurante) throws RepositorioException, EntidadNoEncontrada {
+		System.out.println("ServicioRestaurante");
+		Restaurante restaurante = repositorio.getById(idRestaurante);
+		System.out.println("Restaurante encontrado");
+		String idOpinion = servicioOpiniones.crearOpinion(restaurante.getNombre());
+		System.out.println("ID OPINION "+idOpinion);
+		restaurante.setIdOpinion(idOpinion);
+		repositorio.update(restaurante);
+	}
+
+
+	@Override
+	public List<Valoracion> getValoraciones(String idRestaurante) throws RepositorioException, EntidadNoEncontrada {
+		Restaurante restaurante = repositorio.getById(idRestaurante);
+		List<Valoracion> valoraciones = servicioOpiniones.recuperarValoraciones(restaurante.getIdOpinion());
+		return valoraciones;
 	}
 
 }

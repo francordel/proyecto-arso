@@ -30,9 +30,11 @@ import repositorio.RepositorioException;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.SitioTuristico;
+import restaurantes.modelo.Valoracion;
 import restaurantes.rest.Listado.ResumenExtendido;
 import restaurantes.rest.seguridad.AvailableRoles;
 import restaurantes.rest.seguridad.Secured;
+import restaurantes.retrofit.ValoracionesResponse;
 import restaurantes.servicio.FactoriaServicios;
 import restaurantes.servicio.IServicioRestaurantes;
 import restaurantes.servicio.RestauranteResumen;
@@ -288,7 +290,31 @@ public class RestaurantesControladorRest {
 	//2 METODOS
 	
 	//EL DE CREAR OPINION
-	
+
+	@ApiOperation(value = "Crea una opinion")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_CREATED, message = "Opinion creada correctamente"),
+			@ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "Restaurante no encontrado"), })
+	@Path("/{id}/opinion")
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public Response crearOpinion(@ApiParam(value = "ID del restaurante para crear opinion", required = true) @PathParam("id") String id) throws RepositorioException, EntidadNoEncontrada {
+		System.out.println("Crear opinion");
+		servicio.crearOpinion(id);
+		return Response.status(Response.Status.CREATED).build();
+		
+	}
 	//EL DE GET VALORACIONES
-	
+
+	@ApiOperation(value = "Obtiene el listado de valoraciones")
+	@ApiResponses(value = {
+			@ApiResponse(code = HttpServletResponse.SC_OK, message = "Listado de restaurantes obtenido correctamente"), })
+	@Path("/{id}/valoraciones")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getValoraciones(@ApiParam(value = "ID del restaurante para obtener valoraciones", required = true) @PathParam("id") String id) throws RepositorioException, EntidadNoEncontrada {
+		List<Valoracion> valoraciones = servicio.getValoraciones(id);
+		
+		return Response.ok(valoraciones).build();
+	}
 }

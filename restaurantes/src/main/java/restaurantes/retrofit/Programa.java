@@ -54,7 +54,7 @@ public class Programa {
         //System.out.println("ID: " + opinionId);
         
         // Recuperar las valoraciones de la opinión
-        Response<ValoracionesResponse> response = service.recuperarValoraciones(rawId).execute();
+        Response<ValoracionesResponse> response = service.recuperarValoraciones("646a80e16f128f2385aa20ca").execute();
         List<Valoracion> valoraciones1 = response.body().getValoraciones();
         System.out.println(response.headers());
         System.out.println(response);
