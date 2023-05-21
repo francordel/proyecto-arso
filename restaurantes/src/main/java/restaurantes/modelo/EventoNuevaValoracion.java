@@ -1,9 +1,16 @@
 package restaurantes.modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EventoNuevaValoracion {
+
+    @JsonProperty("IdOpinion")           
     private String idOpinion;
+    @JsonProperty("NuevaValoracion")
     private Valoracion nuevaValoracion;
+    @JsonProperty("NumeroValoraciones")
     private int numeroValoraciones;
+    @JsonProperty("CalificacionMedia")
     private double calificacionMedia;
     
 	public String getIdOpinion() {

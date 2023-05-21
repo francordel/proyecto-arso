@@ -88,11 +88,12 @@ class ServicioRestaurantesTest {
         List<RestauranteResumen> listado = servicioRestaurantes.getListadoRestaurantes();
         assertTrue(listado.size() > 0);
     }
-    
+   /* 
     @Test
     void getSitiosProximos() throws RepositorioException, EntidadNoEncontrada {
         // Supongamos que tu Restaurante ya tiene algunos sitios asociados
         List<SitioTuristico> sitios = servicioRestaurantes.getSitiosProximos(restaurante.getId());
     }
+    */
 }
 

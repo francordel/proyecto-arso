@@ -10,8 +10,9 @@ import retrofit2.http.*;
 
 public interface OpinionesRestClient {
 	
+	@FormUrlEncoded
     @POST("opiniones")
-    Call<Opinion> crearOpinion(@Body Opinion opinion);
+    Call<Void> crearOpinion(@Field("nombreRecurso") String nombreRecurso);
     @GET("opiniones/{id}")
     Call<ValoracionesResponse> recuperarValoraciones(@Path("id") String identificadorOpinion);
 }

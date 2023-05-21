@@ -31,28 +31,30 @@ public class Programa {
         valoraciones.add(valoracion2);
         valoraciones.add(valoracion3);
         // Crear una nueva opinión
-        Opinion opinion = new Opinion("tagliatella", valoraciones );
         
         // (configurar campos del restaurante según sea necesario)
-        System.out.println(new ObjectMapper().writeValueAsString(opinion));
 
         System.out.println("Creando mensaje...");
-        Response<Opinion> createResult = service.crearOpinion(opinion).execute();
+    
+        Response<Void> createResult = service.crearOpinion("tgb").execute();
         
         System.out.println(createResult);
 
         System.out.println(createResult.headers());
-        String opinionUrl = createResult.headers().get("Location");
-        String rawId = opinionUrl.substring(opinionUrl.lastIndexOf("/") + 1);
-        String decodedId = java.net.URLDecoder.decode(rawId);
-        String opinionId = decodedId.replace("BsonObjectId{value=", "").replace("}", "");
-        
-        System.out.println("Opinión creada: " + opinionUrl);
-        System.out.println("ID: " + opinionId);
+		
+		 String opinionUrl = createResult.headers().get("Location"); 
+	     System.out.println("Opinión creada: " + opinionUrl);
 
+		 String rawId = opinionUrl.substring(opinionUrl.lastIndexOf("/") + 1);
+		
+		 
+        
+        System.out.println("ID" + rawId);
+        
+        //System.out.println("ID: " + opinionId);
+        
         // Recuperar las valoraciones de la opinión
-        System.out.println("Huyendo en el tranvia...");
-        Response<ValoracionesResponse> response = service.recuperarValoraciones(opinionId).execute();
+        Response<ValoracionesResponse> response = service.recuperarValoraciones(rawId).execute();
         List<Valoracion> valoraciones1 = response.body().getValoraciones();
         System.out.println(response.headers());
         System.out.println(response);

@@ -35,11 +35,11 @@ namespace Opiniones_restApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Opinion> Create(Opinion opinion)
+        public ActionResult<String> Create([FromForm]String nombreRecurso)
         {
-            _servicio.Create(opinion);
+            string ide = _servicio.Create(nombreRecurso);
 
-            return CreatedAtRoute("GetOpinion", new { id = opinion.Id }, opinion);
+            return CreatedAtRoute("GetOpinion", new { id = ide}, ide);
         }
 
         [HttpPut("{id}")]

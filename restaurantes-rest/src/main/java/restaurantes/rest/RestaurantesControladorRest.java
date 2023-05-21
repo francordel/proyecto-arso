@@ -284,4 +284,11 @@ public class RestaurantesControladorRest {
 		listado.setRestaurante(extendido);
 		return Response.ok(listado).build();
 	}
+	
+	//2 METODOS
+	
+	//EL DE CREAR OPINION
+	
+	//EL DE GET VALORACIONES
+	
 }

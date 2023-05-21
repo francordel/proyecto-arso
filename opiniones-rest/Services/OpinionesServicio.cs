@@ -23,7 +23,7 @@ namespace opiniones_rest.Servicio
     /// <summary>
     /// Registrar un recurso (con un nombre) para ser valorado (crea una opinión)
     /// </summary>
-    string Create(Opinion opinion);
+    string Create(String nombreRecurso);
     /// <summary>
     /// Actualizar una opinión	
     /// </summary>
@@ -62,8 +62,12 @@ namespace opiniones_rest.Servicio
             this.repositorio = repositorio;
         }
         
-        public string Create(Opinion opinion)
+        public string Create(String nombreRecurso)
         {
+            var opinion = new Opinion
+            {
+                NombreRecurso = nombreRecurso
+            };
             return repositorio.Add(opinion);
         }
 
@@ -110,7 +114,7 @@ namespace opiniones_rest.Servicio
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: "evento.nueva.valoracion",
-                                     routingKey: "",
+                                     routingKey: "arso",
                                      basicProperties: null,
                                      body: body);
             }

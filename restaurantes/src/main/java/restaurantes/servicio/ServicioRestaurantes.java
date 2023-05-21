@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.io.InputStreamReader;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -32,13 +31,13 @@ import restaurantes.modelo.EventoNuevaValoracion;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.SitioTuristico;
-import restaurantes.modelo.Valoracion;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.AMQP;
 
@@ -49,28 +48,23 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	InputStreamReader fuente;
 
 	private Repositorio<Restaurante, String> repositorio = FactoriaRepositorios.getRepositorio(Restaurante.class);
-	
-	private Connection connection;
-	private Channel channel;
+
 
 	public ServicioRestaurantes() {
+		
+	}
+	
+	public void subscribeToRabbitMQ() {	
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
 			factory.setUri("amqps://lsbdhozw:nIyxGm7_zrPRixhO_iY0rM9Ptrqfw9U0@whale.rmq.cloudamqp.com/lsbdhozw");
-			
-			this.connection = factory.newConnection();
-			this.channel = connection.createChannel();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
-	
-	public void subscribeToRabbitMQ() {
-		try {
+			Connection connection;
+			Channel channel;
+			connection = factory.newConnection();
+			channel = connection.createChannel();
 			final String exchangeName = "evento.nueva.valoracion";
 			final String queueName = "valoracion-queue";
-			final String bindingKey = "";
+			final String bindingKey = "arso";
 
 			boolean durable = true;
 			boolean exclusive = false;
@@ -96,20 +90,30 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 							long deliveryTag = envelope.getDeliveryTag();
 
 							String contenido = new String(body);
-
+							System.out.println("Before mapper");
 							ObjectMapper mapper = new ObjectMapper(); // Jackson
+							System.out.println("after mapper");
+							EventoNuevaValoracion evento = null;
+							System.out.println("prueba");
+							try {
+							    System.out.println("Contenido: " + contenido);
+							    evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
+							    System.out.println("after event");
+							} catch (JsonProcessingException e) {
+							    System.out.println("Error al deserializar el evento");
+							    e.printStackTrace();
+							}
+							System.out.println("after event");
 
-							EventoNuevaValoracion evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
-							
-//							try {
-//								processEvent(evento);
-//							} catch (RepositorioException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							} catch (EntidadNoEncontrada e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
+							try {
+								processEvent(evento);
+							} catch (RepositorioException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (EntidadNoEncontrada e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 
 							// Confirma el procesamiento
 							System.out.println(evento);
@@ -124,6 +128,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	
 	public void processEvent(EventoNuevaValoracion evento) throws RepositorioException, EntidadNoEncontrada {
 		List<Restaurante> restaurantes = repositorio.getAll();
+		System.out.println("process event");
 	    for (Restaurante restaurante : restaurantes) {
 	        if (restaurante.getIdOpinion().equals(evento.getIdOpinion())) {
 	            restaurante.setCalificacionMedia(evento.getCalificacionMedia());
