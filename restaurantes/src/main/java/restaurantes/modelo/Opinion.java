@@ -14,10 +14,16 @@ public class Opinion implements Identificable {
 	@BsonRepresentation(BsonType.OBJECT_ID)
 	private String id;
 	private String nombreRecurso;
+    private double valoracionMedia;  
+    private int numeroValoraciones;
 
 	private List<Valoracion> valoraciones = new LinkedList<Valoracion>();
 
+	public Opinion() {
+		
+	}
 	public Opinion(String nombreRecurso, List<Valoracion> valoraciones) {
+		this.id = "";
 
 		this.nombreRecurso = nombreRecurso;
 		this.valoraciones = valoraciones;

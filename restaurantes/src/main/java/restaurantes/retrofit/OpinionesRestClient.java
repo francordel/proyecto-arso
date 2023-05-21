@@ -10,10 +10,8 @@ import retrofit2.http.*;
 
 public interface OpinionesRestClient {
 	
-    @POST("api/opiniones")
-    Call<Opinion> crearOpinion(@Body Restaurante restaurante);
-
-    @GET("api/opiniones/{id}")
-    Call<List<Valoracion>> recuperarValoraciones(@Path("id") String identificadorOpinion);
-
+    @POST("opiniones")
+    Call<Opinion> crearOpinion(@Body Opinion opinion);
+    @GET("opiniones/{id}")
+    Call<ValoracionesResponse> recuperarValoraciones(@Path("id") String identificadorOpinion);
 }
