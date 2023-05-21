@@ -28,7 +28,7 @@ public class Programa {
         Response<Void> createResult = service.createRestaurante(restaurante).execute();
         String restaurantUrl = createResult.headers().get("Location");
         String rawId = restaurantUrl.substring(restaurantUrl.lastIndexOf("/") + 1);
-        String decodedId = java.net.URLDecoder.decode(rawId, StandardCharsets.UTF_8);
+        String decodedId = java.net.URLDecoder.decode(rawId);
         String restaurantId = decodedId.replace("BsonObjectId{value=", "").replace("}", "");
 
         System.out.println("Restaurante creado: " + restaurantUrl);

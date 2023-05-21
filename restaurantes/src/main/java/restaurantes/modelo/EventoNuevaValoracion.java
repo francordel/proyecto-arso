@@ -30,4 +30,10 @@ public class EventoNuevaValoracion {
 	public void setCalificacionMedia(double calificacionMedia) {
 		this.calificacionMedia = calificacionMedia;
 	}
+	@Override
+	public String toString() {
+		return "EventoNuevaValoracion [idOpinion=" + idOpinion + ", nuevaValoracion=" + nuevaValoracion
+				+ ", numeroValoraciones=" + numeroValoraciones + ", calificacionMedia=" + calificacionMedia + "]";
+	}
+	
 }

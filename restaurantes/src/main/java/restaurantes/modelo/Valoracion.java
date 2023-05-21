@@ -1,10 +1,11 @@
 package restaurantes.modelo;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Valoracion {
 	private String correoElectronico;
-    private LocalDate fechaRegistro;
+    private String fechaRegistro;
     private int calificacion;
     private String comentario;
     
@@ -14,8 +15,8 @@ public class Valoracion {
     
 	public Valoracion(String correoElectronico, LocalDate fechaRegistro, int calificacion, String comentario) {
 		this.correoElectronico = correoElectronico;
-		this.fechaRegistro = fechaRegistro;
-		this.calificacion = calificacion;
+        this.fechaRegistro = fechaRegistro.format(DateTimeFormatter.ISO_DATE); // Convertir LocalDate a String	
+        this.calificacion = calificacion;
 		this.comentario = comentario;
 	}
 	public String getCorreoElectronico() {
@@ -24,10 +25,10 @@ public class Valoracion {
 	public void setCorreoElectronico(String correoElectronico) {
 		this.correoElectronico = correoElectronico;
 	}
-	public LocalDate getFechaRegistro() {
+	public String getFechaRegistro() {
 		return fechaRegistro;
 	}
-	public void setFechaRegistro(LocalDate fechaRegistro) {
+	public void setFechaRegistro(String fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
 	public int getCalificacion() {

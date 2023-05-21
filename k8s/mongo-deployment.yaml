@@ -38,10 +38,10 @@ spec:
           resources: {}
           volumeMounts:
             - mountPath: /data/db
-              name: mi-volumen-mongo
+              name: mongo-db
       restartPolicy: Always
       volumes:
-        - name: mi-volumen-mongo
+        - name: mongo-db
           persistentVolumeClaim:
-            claimName: mi-volumen-mongo
+            claimName: mongo-db
 status: {}
