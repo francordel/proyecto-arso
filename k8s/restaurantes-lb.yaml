@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurantes-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+  #  Para todo los pots que tengan la etiqueta io.kompose.network/opt-default: "true"
+    io.kompose.service: restaurantes
