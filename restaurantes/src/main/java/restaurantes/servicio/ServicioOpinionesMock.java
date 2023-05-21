@@ -16,10 +16,11 @@ public class ServicioOpinionesMock implements IServicioOpiniones {
     }
 
     @Override
-    public void crearOpinion(Opinion opinion) {
+    public String crearOpinion(String restaurante) {
         String idOpinion = generateId();
-        opinion.setId(idOpinion);
+        Opinion opinion = new Opinion(restaurante, new LinkedList<Valoracion>());
         this.opiniones.put(idOpinion, opinion);
+		return idOpinion;
     }
 
     @Override
