@@ -265,7 +265,6 @@ public class RestaurantesControladorRest {
 
 	// 10 // Listado getListadoRestaurantes()
 	// curl -X GET http://localhost:8080/restaurantes
-
 	@ApiOperation(value = "Obtiene el listado de restaurantes")
 	@ApiResponses(value = {
 			@ApiResponse(code = HttpServletResponse.SC_OK, message = "Listado de restaurantes obtenido correctamente"), })
