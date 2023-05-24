@@ -54,7 +54,7 @@ public class RestaurantesControladorRest {
 	public RestaurantesControladorRest() {
 		try {
 			this.servicio = FactoriaServicios.getServicio(IServicioRestaurantes.class);
-			this.servicio.subscribeToRabbitMQ();
+			//this.servicio.subscribeToRabbitMQ();
 		} catch (Exception e) {
 		}
 	}

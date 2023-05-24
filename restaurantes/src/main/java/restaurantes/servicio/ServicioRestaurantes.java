@@ -27,7 +27,6 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
-import restaurantes.modelo.EventoNuevaValoracion;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
 import restaurantes.modelo.SitioTuristico;
@@ -38,6 +37,9 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+
+import eventos.EventoNuevaValoracion;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.AMQP;
@@ -51,13 +53,11 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 	private Repositorio<Restaurante, String> repositorio = FactoriaRepositorios.getRepositorio(Restaurante.class);
 
-
 	public ServicioRestaurantes() {
-		
+		subscribeToRabbitMQ();
 	}
-	
-	
-	public void subscribeToRabbitMQ() {	
+
+	public void subscribeToRabbitMQ() {
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
 			factory.setUri("amqps://lsbdhozw:nIyxGm7_zrPRixhO_iY0rM9Ptrqfw9U0@whale.rmq.cloudamqp.com/lsbdhozw");
@@ -84,59 +84,64 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 			// Consumidor push
 
-			channel.basicConsume(queueName, autoAck, etiquetaConsumidor,
-					new DefaultConsumer(channel) {
-						@Override
-						public void handleDelivery(String consumerTag, Envelope envelope,
-								AMQP.BasicProperties properties, byte[] body) throws IOException {
+			channel.basicConsume(queueName, autoAck, etiquetaConsumidor, new DefaultConsumer(channel) {
+				@Override
+				public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+						byte[] body) throws IOException {
 
-							long deliveryTag = envelope.getDeliveryTag();
+					long deliveryTag = envelope.getDeliveryTag();
 
-							String contenido = new String(body);
-							ObjectMapper mapper = new ObjectMapper(); // Jackson
-							EventoNuevaValoracion evento = null;
-							try {
-							    System.out.println("Contenido: " + contenido);
-							    evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
-							} catch (JsonProcessingException e) {
-							    System.out.println("Error al deserializar el evento");
-							    e.printStackTrace();
-							}
-							System.out.println("after event");
+					String contenido = new String(body);
+					ObjectMapper mapper = new ObjectMapper(); // Jackson
+					EventoNuevaValoracion evento = null;
+					try {
+						System.out.println("Contenido: " + contenido);
+						evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
+					} catch (JsonProcessingException e) {
+						System.out.println("Error al deserializar el evento");
+						e.printStackTrace();
+					}
+					System.out.println("after event");
 
-							try {
-								processEvent(evento);
-							} catch (RepositorioException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (EntidadNoEncontrada e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+					try {
+						processEvent(evento);
+					} catch (RepositorioException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (EntidadNoEncontrada e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
-							// Confirma el procesamiento
-							System.out.println(evento);
-							channel.basicAck(deliveryTag, false);
-						}
-					});
+					// Confirma el procesamiento
+					System.out.println(evento);
+					channel.basicAck(deliveryTag, false);
+				}
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public void processEvent(EventoNuevaValoracion evento) throws RepositorioException, EntidadNoEncontrada {
 		List<Restaurante> restaurantes = repositorio.getAll();
 		System.out.println("process event");
-	    for (Restaurante restaurante : restaurantes) {
-	        if (restaurante.getIdOpinion().equals(evento.getIdOpinion())) {
-	            restaurante.setCalificacionMedia(evento.getCalificacionMedia());
-	            restaurante.setNumValoraciones(evento.getNumeroValoraciones());
-	    		repositorio.update(restaurante);
-	            break;
-	        }
-	    }
-	    
+		for (Restaurante restaurante : restaurantes) {
+			try {
+				if ((restaurante.getIdOpinion() != null)&&(restaurante.getIdOpinion().equals(evento.getIdOpinion()))) {
+					restaurante.setCalificacionMedia(evento.getCalificacionMedia());
+					restaurante.setNumValoraciones(evento.getNumeroValoraciones());
+					repositorio.update(restaurante);
+					break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+}
+			
+		}
+		System.out.println("FIN METODO PROCESS");
+
 	}
 
 	@Override
@@ -311,7 +316,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		Restaurante restaurante = repositorio.getById(id);
 
 		restaurante.setSitios(sitios);
-		
+
 		repositorio.update(restaurante);
 	}
 
@@ -413,18 +418,16 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		return id.equals(restaurante.getIdGestor());
 	}
 
-
 	@Override
 	public void crearOpinion(String idRestaurante) throws RepositorioException, EntidadNoEncontrada {
 		System.out.println("ServicioRestaurante");
 		Restaurante restaurante = repositorio.getById(idRestaurante);
 		System.out.println("Restaurante encontrado");
 		String idOpinion = servicioOpiniones.crearOpinion(restaurante.getNombre());
-		System.out.println("ID OPINION "+idOpinion);
+		System.out.println("ID OPINION " + idOpinion);
 		restaurante.setIdOpinion(idOpinion);
 		repositorio.update(restaurante);
 	}
-
 
 	@Override
 	public List<Valoracion> getValoraciones(String idRestaurante) throws RepositorioException, EntidadNoEncontrada {

@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Valoracion {
+	
 	private String correoElectronico;
     private String fechaRegistro;
     private int calificacion;
