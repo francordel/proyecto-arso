@@ -21,6 +21,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     #Establecemos un volumen para que se persista en la maquina local para no perderlas
     volumes:
+      # mongo-db:data/db
       - ./opiniones-rest/mongo-db:/data/db
   # Este servicio de Mongo Express permite acceder a una interfaz web para administrar MongoDB a través del puerto 8081 del host.
   mongo-express:

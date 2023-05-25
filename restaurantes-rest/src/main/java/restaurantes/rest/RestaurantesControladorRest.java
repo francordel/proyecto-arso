@@ -54,7 +54,7 @@ public class RestaurantesControladorRest {
 	public RestaurantesControladorRest() {
 		try {
 			this.servicio = FactoriaServicios.getServicio(IServicioRestaurantes.class);
-			this.servicio.subscribeToRabbitMQ();
+			//this.servicio.subscribeToRabbitMQ();
 		} catch (Exception e) {
 		}
 	}
@@ -265,7 +265,6 @@ public class RestaurantesControladorRest {
 
 	// 10 // Listado getListadoRestaurantes()
 	// curl -X GET http://localhost:8080/restaurantes
-
 	@ApiOperation(value = "Obtiene el listado de restaurantes")
 	@ApiResponses(value = {
 			@ApiResponse(code = HttpServletResponse.SC_OK, message = "Listado de restaurantes obtenido correctamente"), })
