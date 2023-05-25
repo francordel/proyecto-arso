@@ -84,41 +84,38 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 			// Consumidor push
 
-			channel.basicConsume(queueName, autoAck, etiquetaConsumidor,
-					new DefaultConsumer(channel) {
-						@Override
-						public void handleDelivery(String consumerTag, Envelope envelope,
-								AMQP.BasicProperties properties, byte[] body) throws IOException {
+			channel.basicConsume(queueName, false, etiquetaConsumidor, new DefaultConsumer(channel) {
+			    @Override
+			    public void handleDelivery(String consumerTag, Envelope envelope,
+			                               AMQP.BasicProperties properties, byte[] body) throws IOException {
 
-							long deliveryTag = envelope.getDeliveryTag();
+			        long deliveryTag = envelope.getDeliveryTag();
 
-							String contenido = new String(body);
-							ObjectMapper mapper = new ObjectMapper(); // Jackson
-							EventoNuevaValoracion evento = null;
-							try {
-							    System.out.println("Contenido: " + contenido);
-							    evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
-							} catch (JsonProcessingException e) {
-							    System.out.println("Error al deserializar el evento");
-							    e.printStackTrace();
-							}
-							System.out.println("after event");
+			        String contenido = new String(body);
+			        ObjectMapper mapper = new ObjectMapper(); // Jackson
+			        EventoNuevaValoracion evento = null;
+			        try {
+			            System.out.println("Contenido: " + contenido);
+			            evento = mapper.readValue(contenido, EventoNuevaValoracion.class);
+			        } catch (JsonProcessingException e) {
+			            System.out.println("Error al deserializar el evento");
+			            e.printStackTrace();
+			        }
+			        System.out.println("after event");
 
-							try {
-								processEvent(evento);
-							} catch (RepositorioException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (EntidadNoEncontrada e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+			        try {
+			            processEvent(evento);
+			        } catch (RepositorioException e) {
+			            e.printStackTrace();
+			        } catch (EntidadNoEncontrada e) {
+			            e.printStackTrace();
+			        }
 
-							// Confirma el procesamiento
-							System.out.println(evento);
-							channel.basicAck(deliveryTag, false);
-						}
-					});
+			        System.out.println(evento);
+			        channel.basicAck(deliveryTag, false); // Confirma el procesamiento del mensaje
+			    }
+			});
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -418,7 +415,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	public void crearOpinion(String idRestaurante) throws RepositorioException, EntidadNoEncontrada {
 		System.out.println("ServicioRestaurante");
 		Restaurante restaurante = repositorio.getById(idRestaurante);
-		System.out.println("Restaurante encontrado");
+		System.out.println("Restaurante encontrado" + restaurante);
 		String idOpinion = servicioOpiniones.crearOpinion(restaurante.getNombre());
 		System.out.println("ID OPINION "+idOpinion);
 		restaurante.setIdOpinion(idOpinion);

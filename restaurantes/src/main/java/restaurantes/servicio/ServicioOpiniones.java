@@ -16,9 +16,11 @@ public class ServicioOpiniones implements IServicioOpiniones{
 	@Override
 	public String crearOpinion(String restaurante) {
 		Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://opiniones:5002/api/")
+                //.baseUrl("http://opiniones:5002/api/")
+				.baseUrl("http://localhost:5047/api/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
+		System.out.println("Cramos servicio opinion");
         OpinionesRestClient service = retrofit.create(OpinionesRestClient.class);
         
         try {

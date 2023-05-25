@@ -980,19 +980,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/fran/.nuget/packages/": {}
+    "C:\\Users\\franj\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/fran/Documents/vscode/proyecto-arso/opiniones-rest/opiniones-rest.csproj",
+      "projectUniqueName": "C:\\Users\\franj\\Documents\\GitHub\\proyecto-arso\\opiniones-rest\\opiniones-rest.csproj",
       "projectName": "opiniones-rest",
-      "projectPath": "/Users/fran/Documents/vscode/proyecto-arso/opiniones-rest/opiniones-rest.csproj",
-      "packagesPath": "/Users/fran/.nuget/packages/",
-      "outputPath": "/Users/fran/Documents/vscode/proyecto-arso/opiniones-rest/obj/",
+      "projectPath": "C:\\Users\\franj\\Documents\\GitHub\\proyecto-arso\\opiniones-rest\\opiniones-rest.csproj",
+      "packagesPath": "C:\\Users\\franj\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\franj\\Documents\\GitHub\\proyecto-arso\\opiniones-rest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/fran/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\franj\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -1048,7 +1048,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.408\\RuntimeIdentifierGraph.json"
       }
     }
   }
