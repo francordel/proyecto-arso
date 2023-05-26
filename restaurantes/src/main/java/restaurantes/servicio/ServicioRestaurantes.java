@@ -422,7 +422,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	public void crearOpinion(String idRestaurante) throws RepositorioException, EntidadNoEncontrada {
 		System.out.println("ServicioRestaurante");
 		Restaurante restaurante = repositorio.getById(idRestaurante);
-		System.out.println("Restaurante encontrado");
+		System.out.println("Restaurante encontrado" + restaurante);
 		String idOpinion = servicioOpiniones.crearOpinion(restaurante.getNombre());
 		System.out.println("ID OPINION " + idOpinion);
 		restaurante.setIdOpinion(idOpinion);

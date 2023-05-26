@@ -14,10 +14,10 @@ namespace opiniones_rest.Repositorio
 
         public RepositorioOpinionesMongoDB()
         {
-            //var client = new MongoClient("mongodb://localhost:27017");
+            var client = new MongoClient("mongodb://localhost:27017");
             //Console.WriteLine(Environment.GetEnvironmentVariable("URI_MONGODB"));
             //var client = new MongoClient("mongodb://root:example@mongo:27017/");
-            var client = new MongoClient(Environment.GetEnvironmentVariable("URI_MONGODB"));
+            //var client = new MongoClient(Environment.GetEnvironmentVariable("URI_MONGODB"));
             var database = client.GetDatabase("ArsoProyecto");
             opiniones = database.GetCollection<Opinion>("Opiniones");
         }
