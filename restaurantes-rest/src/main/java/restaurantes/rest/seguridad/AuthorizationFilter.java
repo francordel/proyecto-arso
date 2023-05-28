@@ -54,14 +54,19 @@ public class AuthorizationFilter implements ContainerRequestFilter, ResourceFilt
 		// control de cookies
 		if (request.getCookies().get("jwt") != null) {
 			jwt = request.getCookies().get("jwt").getValue();
+			System.out.println("Authorization Filter, jwt: "+ jwt);
 		}
 		
 		if (jwt == null) {
 			// Intenta recuperar la cabecera "Authorization" en busca del token JWT
 			
 			final String authHeader = request.getHeaderValue(HttpHeaders.AUTHORIZATION);
-			if (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) 			
+			System.out.println("Authorization Filter, authHeader: "+ authHeader);
+
+			if (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) { 			
 				jwt = authHeader.substring(TOKEN_PREFIX.length());
+				System.out.println("Authorization Filter, jwt: "+ jwt);
+			}
 		}
 		
 			
