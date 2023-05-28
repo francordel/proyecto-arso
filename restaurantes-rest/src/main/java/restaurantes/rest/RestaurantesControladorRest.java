@@ -312,8 +312,9 @@ public class RestaurantesControladorRest {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getValoraciones(@ApiParam(value = "ID del restaurante para obtener valoraciones", required = true) @PathParam("id") String id) throws RepositorioException, EntidadNoEncontrada {
+		System.out.println("Rest obteniendo valoraciones...");
 		List<Valoracion> valoraciones = servicio.getValoraciones(id);
-		
+		System.out.println("Valoraciones obtenidas: " + valoraciones);
 		return Response.ok(valoraciones).build();
 	}
 }

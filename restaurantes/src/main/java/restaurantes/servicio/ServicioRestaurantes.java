@@ -159,11 +159,6 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	@Override
 	public void update(String id, String nombre, String codigoPostal, String coordenadas)
 			throws RepositorioException, EntidadNoEncontrada {
-
-		// DUDA CON PUT: ¿QUÉ PASA SI QUIERES CAMBIAR SOLO UNO DE LOS CAMPOS Y QUEDAN
-		// CAMPOS VACÍOS?
-		// ¿QUÉ LE LLEGA AL PUT? CADENA VACÍA, NULL...?
-
 		Restaurante restaurante = repositorio.getById(id);
 
 		restaurante.setNombre(nombre);
@@ -431,8 +426,11 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 	@Override
 	public List<Valoracion> getValoraciones(String idRestaurante) throws RepositorioException, EntidadNoEncontrada {
+		System.out.print("Servicio restaurante obteniendo valoraciones");
 		Restaurante restaurante = repositorio.getById(idRestaurante);
+		System.out.println("del restaurante" + restaurante + "y su id opinion es "+ restaurante.getIdOpinion());
 		List<Valoracion> valoraciones = servicioOpiniones.recuperarValoraciones(restaurante.getIdOpinion());
+		System.out.println("Las valoraciones del servicio restaurante son: "+valoraciones);
 		return valoraciones;
 	}
 

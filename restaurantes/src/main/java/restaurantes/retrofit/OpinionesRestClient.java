@@ -9,6 +9,8 @@ public interface OpinionesRestClient {
 	@FormUrlEncoded
     @POST("opiniones")
     Call<Void> crearOpinion(@Field("nombreRecurso") String nombreRecurso);
-    @GET("opiniones/{id}")
-    Call<ValoracionesResponse> recuperarValoraciones(@Path("id") String identificadorOpinion);
+	 
+	@GET("opiniones/{id}")
+	Call<OpinionResponse> recuperarValoraciones(@Path("id") String identificadorOpinion);
 }
+

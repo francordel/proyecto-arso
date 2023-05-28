@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import restaurantes.modelo.Valoracion;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ValoracionesResponse {
+	
     private List<Valoracion> valoraciones;
 
 	public List<Valoracion> getValoraciones() {
