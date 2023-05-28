@@ -77,7 +77,7 @@ public class RestaurantesControladorRest {
 			throws RepositorioException {
 
 		String id = servicio.create(restaurante.getNombre(), restaurante.getCodigoPostal(),
-				restaurante.getCoordenadas(), this.securityContext.getUserPrincipal().getName());
+				restaurante.getCoordenadas(), restaurante.getCiudad(), this.securityContext.getUserPrincipal().getName());
 
 		// Get headers
 		MultivaluedMap<String, String> allHeaders = headers.getRequestHeaders();
@@ -117,7 +117,7 @@ public class RestaurantesControladorRest {
 			throws RepositorioException, EntidadNoEncontrada {
 
 			if (servicio.isGestor(id, this.securityContext.getUserPrincipal().getName())) {
-				servicio.update(id, restaurante.getNombre(), restaurante.getCodigoPostal(), restaurante.getCoordenadas());
+				servicio.update(id, restaurante.getNombre(), restaurante.getCodigoPostal(), restaurante.getCoordenadas(), restaurante.getCiudad());
 			}
 		
 		return Response.status(Response.Status.NO_CONTENT).build();

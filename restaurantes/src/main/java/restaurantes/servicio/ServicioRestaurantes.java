@@ -38,8 +38,8 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
-import eventos.EventoNuevaValoracion;
 
+import eventos.EventoNuevaValoracion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.AMQP;
@@ -128,7 +128,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		List<Restaurante> restaurantes = repositorio.getAll();
 		System.out.println("process event");
 		for (Restaurante restaurante : restaurantes) {
-			try {
+			try { 
 				if ((restaurante.getIdOpinion() != null)&&(restaurante.getIdOpinion().equals(evento.getIdOpinion()))) {
 					restaurante.setCalificacionMedia(evento.getCalificacionMedia());
 					restaurante.setNumValoraciones(evento.getNumeroValoraciones());
@@ -145,26 +145,27 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	}
 
 	@Override
-	public String create(String nombre, String codigoPostal, String coordenadas, String idGestor)
+	public String create(String nombre, String codigoPostal, String coordenadas, String idGestor, String ciudad)
 			throws RepositorioException {
 		Restaurante restaurante = new Restaurante();
 		restaurante.setIdGestor(idGestor);
 		restaurante.setNombre(nombre);
 		restaurante.setCodigoPostal(codigoPostal);
 		restaurante.setCoordenadas(coordenadas);
+		restaurante.setCiudad(ciudad);
 
 		return repositorio.add(restaurante);
 	}
 
 	@Override
-	public void update(String id, String nombre, String codigoPostal, String coordenadas)
+	public void update(String id, String nombre, String codigoPostal, String coordenadas, String ciudad)
 			throws RepositorioException, EntidadNoEncontrada {
 		Restaurante restaurante = repositorio.getById(id);
 
 		restaurante.setNombre(nombre);
 		restaurante.setCodigoPostal(codigoPostal);
 		restaurante.setCoordenadas(coordenadas);
-
+		restaurante.setCiudad(ciudad);
 		repositorio.update(restaurante);
 	}
 
