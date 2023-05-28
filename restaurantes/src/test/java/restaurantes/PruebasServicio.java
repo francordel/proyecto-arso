@@ -24,7 +24,7 @@ class ServicioRestaurantesTest {
     @BeforeEach
     void setUp() throws RepositorioException, EntidadNoEncontrada {
         servicioRestaurantes = new ServicioRestaurantes();
-        String id = servicioRestaurantes.create("Test Restaurante", "30007", "1,1", "");
+        String id = servicioRestaurantes.create("Test Restaurante", "30007", "1,1", "", "Murcia");
         restaurante = servicioRestaurantes.getRestaurante(id);
     }
     
@@ -48,7 +48,7 @@ class ServicioRestaurantesTest {
 
     @Test
     void update() throws RepositorioException, EntidadNoEncontrada {
-    	servicioRestaurantes.update(restaurante.getId(), "Nuevo Nombre", "54321", "5,5");
+    	servicioRestaurantes.update(restaurante.getId(), "Nuevo Nombre", "54321", "5,5", "Alicante");
         Restaurante restauranteActualizado = servicioRestaurantes.getRestaurante(restaurante.getId());
         assertEquals("Nuevo Nombre", restauranteActualizado.getNombre());
     }

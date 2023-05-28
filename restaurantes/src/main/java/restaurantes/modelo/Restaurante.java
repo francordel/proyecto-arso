@@ -19,7 +19,7 @@ public class Restaurante implements Identificable{
     private String idGestor;
     private List<Plato> platos = new LinkedList<Plato>();
     private List<SitioTuristico> sitios = new LinkedList<SitioTuristico>();
-    
+    private String ciudad;
     public Restaurante() {
     	
     }
@@ -33,6 +33,14 @@ public class Restaurante implements Identificable{
     
     public int getNumValoraciones() {
 		return numValoraciones;
+	}
+
+	public String getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
 	}
 
 	public void setNumValoraciones(int numValoraciones) {

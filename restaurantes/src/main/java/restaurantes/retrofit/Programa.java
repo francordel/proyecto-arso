@@ -1,14 +1,11 @@
 package restaurantes.retrofit;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import okhttp3.MediaType;
-import restaurantes.modelo.Opinion;
 import restaurantes.modelo.Valoracion;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -54,7 +51,7 @@ public class Programa {
         //System.out.println("ID: " + opinionId);
         
         // Recuperar las valoraciones de la opinión
-        Response<ValoracionesResponse> response = service.recuperarValoraciones("646a80e16f128f2385aa20ca").execute();
+        Response<OpinionResponse> response = service.recuperarValoraciones("646a80e16f128f2385aa20ca").execute();
         List<Valoracion> valoraciones1 = response.body().getValoraciones();
         System.out.println(response.headers());
         System.out.println(response);

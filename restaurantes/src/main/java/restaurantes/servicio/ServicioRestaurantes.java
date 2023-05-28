@@ -128,7 +128,7 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 		List<Restaurante> restaurantes = repositorio.getAll();
 		System.out.println("process event");
 		for (Restaurante restaurante : restaurantes) {
-			try {
+			try { 
 				if ((restaurante.getIdOpinion() != null)&&(restaurante.getIdOpinion().equals(evento.getIdOpinion()))) {
 					restaurante.setCalificacionMedia(evento.getCalificacionMedia());
 					restaurante.setNumValoraciones(evento.getNumeroValoraciones());
@@ -145,31 +145,27 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	}
 
 	@Override
-	public String create(String nombre, String codigoPostal, String coordenadas, String idGestor)
+	public String create(String nombre, String codigoPostal, String coordenadas, String idGestor, String ciudad)
 			throws RepositorioException {
 		Restaurante restaurante = new Restaurante();
 		restaurante.setIdGestor(idGestor);
 		restaurante.setNombre(nombre);
 		restaurante.setCodigoPostal(codigoPostal);
 		restaurante.setCoordenadas(coordenadas);
+		restaurante.setCiudad(ciudad);
 
 		return repositorio.add(restaurante);
 	}
 
 	@Override
-	public void update(String id, String nombre, String codigoPostal, String coordenadas)
+	public void update(String id, String nombre, String codigoPostal, String coordenadas, String ciudad)
 			throws RepositorioException, EntidadNoEncontrada {
-
-		// DUDA CON PUT: ¿QUÉ PASA SI QUIERES CAMBIAR SOLO UNO DE LOS CAMPOS Y QUEDAN
-		// CAMPOS VACÍOS?
-		// ¿QUÉ LE LLEGA AL PUT? CADENA VACÍA, NULL...?
-
 		Restaurante restaurante = repositorio.getById(id);
 
 		restaurante.setNombre(nombre);
 		restaurante.setCodigoPostal(codigoPostal);
 		restaurante.setCoordenadas(coordenadas);
-
+		restaurante.setCiudad(ciudad);
 		repositorio.update(restaurante);
 	}
 
@@ -431,8 +427,11 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 
 	@Override
 	public List<Valoracion> getValoraciones(String idRestaurante) throws RepositorioException, EntidadNoEncontrada {
+		System.out.print("Servicio restaurante obteniendo valoraciones");
 		Restaurante restaurante = repositorio.getById(idRestaurante);
+		System.out.println("del restaurante" + restaurante + "y su id opinion es "+ restaurante.getIdOpinion());
 		List<Valoracion> valoraciones = servicioOpiniones.recuperarValoraciones(restaurante.getIdOpinion());
+		System.out.println("Las valoraciones del servicio restaurante son: "+valoraciones);
 		return valoraciones;
 	}
 

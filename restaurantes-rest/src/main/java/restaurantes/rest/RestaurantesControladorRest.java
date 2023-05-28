@@ -77,7 +77,7 @@ public class RestaurantesControladorRest {
 			throws RepositorioException {
 
 		String id = servicio.create(restaurante.getNombre(), restaurante.getCodigoPostal(),
-				restaurante.getCoordenadas(), this.securityContext.getUserPrincipal().getName());
+				restaurante.getCoordenadas(),  this.securityContext.getUserPrincipal().getName(),restaurante.getCiudad());
 
 		// Get headers
 		MultivaluedMap<String, String> allHeaders = headers.getRequestHeaders();
@@ -117,7 +117,7 @@ public class RestaurantesControladorRest {
 			throws RepositorioException, EntidadNoEncontrada {
 
 			if (servicio.isGestor(id, this.securityContext.getUserPrincipal().getName())) {
-				servicio.update(id, restaurante.getNombre(), restaurante.getCodigoPostal(), restaurante.getCoordenadas());
+				servicio.update(id, restaurante.getNombre(), restaurante.getCodigoPostal(), restaurante.getCoordenadas(), restaurante.getCiudad());
 			}
 		
 		return Response.status(Response.Status.NO_CONTENT).build();
@@ -312,8 +312,9 @@ public class RestaurantesControladorRest {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getValoraciones(@ApiParam(value = "ID del restaurante para obtener valoraciones", required = true) @PathParam("id") String id) throws RepositorioException, EntidadNoEncontrada {
+		System.out.println("Rest obteniendo valoraciones...");
 		List<Valoracion> valoraciones = servicio.getValoraciones(id);
-		
+		System.out.println("Valoraciones obtenidas: " + valoraciones);
 		return Response.ok(valoraciones).build();
 	}
 }

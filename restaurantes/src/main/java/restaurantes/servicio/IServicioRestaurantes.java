@@ -14,12 +14,12 @@ public interface IServicioRestaurantes {
 	/**
 	 * Metodo de alta de un restaurante.
 	 */
-	String create(String nombre, String codigoPostal, String coordenadas, String idGestor) throws RepositorioException;
+	String create(String nombre, String codigoPostal, String coordenadas, String idGestor, String ciudad) throws RepositorioException;
 
 	/**
 	 * Actualiza un restaurante.
 	 */
-	void update(String id, String nombre, String codigoPostal, String coordenadas)
+	void update(String id, String nombre, String codigoPostal, String coordenadas, String ciudad)
 			throws RepositorioException, EntidadNoEncontrada;
 
 	/**
