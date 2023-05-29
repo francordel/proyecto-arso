@@ -69,11 +69,11 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 			
 			// Opción 1:depuración y pruebas del backend, muestra el token por la salida
 			
-			response.getOutputStream().write(responseBody.getBytes());
+			//response.getOutputStream().write(responseBody.getBytes());
 			
 			// Opción 2: redigire a una página de referencia
 			
-			 //redirectStrategy.sendRedirect(request, response, "localhost:3001/");
+			 redirectStrategy.sendRedirect(request, response, "localhost:3001/");
 			
 		} else {
 			

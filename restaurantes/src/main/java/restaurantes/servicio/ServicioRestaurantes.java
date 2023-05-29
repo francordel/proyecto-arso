@@ -396,7 +396,8 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 				resumen.setNombre(restaurante.getNombre());
 				resumen.setCoordenadas(restaurante.getCoordenadas());
 				resumen.setCodigoPostal(restaurante.getCodigoPostal());
-
+				resumen.setCiudad(restaurante.getCiudad());
+				resumen.setCalificacionMedia(restaurante.getCalificacionMedia());
 				resultado.add(resumen);
 
 			} catch (Exception e) {
