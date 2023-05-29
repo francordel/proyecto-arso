@@ -3,11 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>arso</groupId>
 	<artifactId>restaurantes</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -15,11 +13,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<dep.slf4j.version>1.7.30</dep.slf4j.version>
 	</properties>
-
-
 	<dependencies>
 		<!-- Retrofit -->
-
 		<dependency>
 			<groupId>com.squareup.retrofit2</groupId>
 			<artifactId>retrofit</artifactId>
@@ -32,6 +27,12 @@
 			<version>2.9.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>converter-gson</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.squareup.retrofit2</groupId>
 			<artifactId>converter-jaxb</artifactId>
@@ -68,7 +69,6 @@
 			<artifactId>geronimo-json_1.1_spec</artifactId>
 			<version>1.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.json.bind</groupId>
 			<artifactId>javax.json.bind-api</artifactId>
@@ -79,7 +79,6 @@
 			<artifactId>yasson</artifactId>
 			<version>1.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -101,8 +100,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-
 	<dependencyManagement>
 		<dependencies>
 			<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
@@ -141,7 +138,6 @@
 				<artifactId>logback-classic</artifactId>
 				<version>1.2.3</version>
 			</dependency>
-
 			<!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
 			<dependency>
 				<groupId>org.assertj</groupId>
@@ -163,17 +159,14 @@
 				<version>5.7.0-M1</version>
 				<scope>test</scope>
 			</dependency>
-
 			<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
 			<dependency>
 				<groupId>javax.xml.bind</groupId>
 				<artifactId>jaxb-api</artifactId>
 				<version>2.3.1</version>
 			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
-
 	<build>
 		<pluginManagement>
 			<!-- lock down plugins versions to avoid using Maven defaults (may be 
@@ -213,7 +206,6 @@
 					<artifactId>jetty-maven-plugin</artifactId>
 					<version>9.4.7</version>
 				</plugin>
-
 			</plugins>
 		</pluginManagement>
 		<plugins>
