@@ -161,11 +161,14 @@ public class ServicioRestaurantes implements IServicioRestaurantes {
 	public void update(String id, String nombre, String codigoPostal, String coordenadas, String ciudad)
 			throws RepositorioException, EntidadNoEncontrada {
 		Restaurante restaurante = repositorio.getById(id);
-
-		restaurante.setNombre(nombre);
-		restaurante.setCodigoPostal(codigoPostal);
-		restaurante.setCoordenadas(coordenadas);
-		restaurante.setCiudad(ciudad);
+		if(nombre!=null)
+			restaurante.setNombre(nombre);
+		if(codigoPostal!=null)
+			restaurante.setCodigoPostal(codigoPostal);
+		if(coordenadas!=null)
+			restaurante.setCoordenadas(coordenadas);
+		if(ciudad!=null)	
+			restaurante.setCiudad(ciudad);
 		repositorio.update(restaurante);
 	}
 

@@ -77,7 +77,7 @@ public class RestaurantesControladorRest {
 			throws RepositorioException {
 
 		String id = servicio.create(restaurante.getNombre(), restaurante.getCodigoPostal(),
-				restaurante.getCoordenadas(), restaurante.getCiudad(), this.securityContext.getUserPrincipal().getName());
+				restaurante.getCoordenadas(), this.securityContext.getUserPrincipal().getName(), restaurante.getCiudad());
 
 		// Get headers
 		MultivaluedMap<String, String> allHeaders = headers.getRequestHeaders();
