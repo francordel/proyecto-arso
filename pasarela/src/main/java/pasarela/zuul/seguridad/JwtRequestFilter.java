@@ -41,18 +41,26 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		
 		// control de cookies
 		if (request.getCookies() != null) {
+			System.out.println("JWTRequestFilter, tiene cookies");
 			for (Cookie cookie : request.getCookies()) {
-				if (cookie.getName().equals("jwt"))
+				if (cookie.getName().equals("jwt")) {
 						jwt = cookie.getValue();
+						System.out.println("JWTRequestFilter, tiene jwt" + jwt);
+				}
 			}
 		}
 		
 		if (jwt == null) {
 			// Intenta recuperar la cabecera "Authorization" en busca del token JWT
-			
+			System.out.println("JWTRequestFilter, Intenta recuperar la cabecera \"Authorization\" en busca del token JWT");
+
 			final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-			if (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) 			
+			System.out.println("PASARELA JWTRequestFilter,authHeader" + authHeader);
+			if (authHeader != null && authHeader.startsWith(TOKEN_PREFIX))  {			
 				jwt = authHeader.substring(TOKEN_PREFIX.length());
+				System.out.println("PASARELA JWTRequestFilter,jwt" + jwt);
+
+			}
 		}
 		
 		
