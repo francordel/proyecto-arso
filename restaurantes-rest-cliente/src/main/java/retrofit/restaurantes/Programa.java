@@ -1,7 +1,8 @@
 package retrofit.restaurantes;
 
-import java.nio.charset.StandardCharsets;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import restaurantes.modelo.Plato;
 import restaurantes.modelo.Restaurante;
 import restaurantes.rest.RestaurantesRestClient;
@@ -12,13 +13,31 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class Programa {
     public static void main(String[] args) throws Exception {
+    	
+    	// SE DEBERÁ SUSTITUIR POR UN TOKEN DE ACCESO VÁLIDO
+    	// ESTÁ SECURIZADO
+    	String jwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0ZjBmZjlmZS01OWExLTQ5OWEtYWQ4MS03YzM4OTgzMzBiMmQiLCJpc3MiOiJQYXNhcmVsYSBadXVsIiwiZXhwIjoxNjg1NjE0ODkzLCJzdWIiOiJwY2FycmFzY28xMyIsInVzdWFyaW8iOiJwYWJsb2NhcnJhc2NvZWdlYUBnbWFpbC5jb20iLCJyb2wiOiJHRVNUT1IifQ.UysNHLql6w2BUC3RtyLYEItgPtzXa0-fvYTjLF5yox0";
+
+    	OkHttpClient okHttpClient = new OkHttpClient.Builder()
+    	        .addInterceptor(chain -> {
+    	            Request originalRequest = chain.request();
+    	            Request.Builder builder = originalRequest.newBuilder()
+    	                    .header("Authorization", "Bearer " + jwtToken);
+
+    	            Request newRequest = builder.build();
+    	            return chain.proceed(newRequest);
+    	        })
+    	        .build();
+    	
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://localhost:8080/api/")
                 .addConverterFactory(JacksonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
 
         RestaurantesRestClient service = retrofit.create(RestaurantesRestClient.class);
-
+        
+        
         // Create a new restaurant
         Restaurante restaurante = new Restaurante();
         restaurante.setNombre("My Restaurant");
@@ -26,6 +45,7 @@ public class Programa {
         restaurante.setCoordenadas("40, -74");
 
         Response<Void> createResult = service.createRestaurante(restaurante).execute();
+        System.out.println("");
         String restaurantUrl = createResult.headers().get("Location");
         String rawId = restaurantUrl.substring(restaurantUrl.lastIndexOf("/") + 1);
         String decodedId = java.net.URLDecoder.decode(rawId);
