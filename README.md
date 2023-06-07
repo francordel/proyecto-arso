@@ -4,13 +4,18 @@
 - docker build -t pasarela:2.0 -f Dockerfile.pasarela .
 - docker build -t opiniones-rest:2.0 ./opiniones-rest/
 - docker build -t restaurantes:2.0 -f Dockerfile.restaurantes .
-- docker compose up -d
+- docker compose up -d 
+
 Terminamos con:
 - docker compose down 
 ## Comandos para despliegue en kubernetes
 - cd k8s/ 
 - kubectl apply -f . 
-- kubectl get all
+- kubectl get all 
+
+Terminamos con:
+- kubectl delete -f .
+
 
 
 
