@@ -17,20 +17,20 @@ public class ServicioOpiniones implements IServicioOpiniones{
 	@Override
 	public String crearOpinion(String restaurante) {
 		Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl("http://opiniones:5002/api/")
-				.baseUrl("http://localhost:5047/api/")
+                .baseUrl("http://opiniones:5002/api/")
+				//.baseUrl("http://localhost:5047/api/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
-		System.out.println("Cramos servicio opinion");
+		System.out.println("Cramos MI servicio opinion");
         OpinionesRestClient service = retrofit.create(OpinionesRestClient.class);
         
         try {
-        	System.out.println("id "+restaurante);
+        	System.out.println("Mi ID "+restaurante);
 			Response<Void> createResult = service.crearOpinion(restaurante).execute();
-			System.out.println("Respuesta"+createResult);
+			System.out.println("Respuesta "+createResult);
 			String opinionUrl = createResult.headers().get("Location"); 
 			String rawId = opinionUrl.substring(opinionUrl.lastIndexOf("/") + 1);
-			System.out.println("Id opinion" + rawId);
+			System.out.println("Id opinion " + rawId);
 			return rawId;
 			 	        
 			
@@ -46,11 +46,12 @@ public class ServicioOpiniones implements IServicioOpiniones{
 	@Override
 	public List<Valoracion> recuperarValoraciones(String identificadorOpinion) {
 		Retrofit retrofit = new Retrofit.Builder()
-			    .baseUrl("http://localhost:5047/api/")
+				.baseUrl("http://opiniones:5002/api/")
+			    //.baseUrl("http://localhost:5047/api/")
 			    .addConverterFactory(GsonConverterFactory.create())
 			    .build();
 
-		System.out.println("Crea servicio retrofit");
+		System.out.println("Crea MI servicio retrofit");
         OpinionesRestClient service = retrofit.create(OpinionesRestClient.class);	
         List<Valoracion> valoraciones = new LinkedList<>();
         try {
