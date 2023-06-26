@@ -36,7 +36,7 @@ El graphql funcional es opiniones-graphql. Para utilizarlo necesitas:
   - Abrir el proyecto maven opiniones. Click derecho run as... maven install 
   - Abrir el proyecto opiniones-graphql. Click derecho run as... maven install
   - Click derecho sobre opniones-graphql, run as... Maven Build. En goal poner jetty:run
-  - En el navegador acceder a la URL `http://localhost:8080/graphiql.html`
+  - En el navegador acceder a la URL `http://localhost:8082/graphiql.html`
 
 ## Nota Añadir usuarios en el proyecto 
 En usuarios-pasarela en la carpeta usuarios.repositorio modificar la clase RepositorioUsuariosMemoria.java y añadir ahí el usuario con el correo y rol que queramos
