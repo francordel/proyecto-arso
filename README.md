@@ -80,3 +80,6 @@ En usuarios-pasarela en la carpeta usuarios.repositorio modificar la clase Repos
 
 ## Nota acoplar el proyecto como back de un front
 En el proyecto pasarela en pasarela.zuul.seguridad cambiar la clase SecuritySuccessHandler.java comentando lña Opcion 1 y descomentando la Opcion2 permitiendo que te redirija a donde quieras.
+
+## Nota Colas RabbitMQ
+Las colas se gestionan con rabbitmq `https://www.cloudamqp.com/` donde se puede ver la comunicación de las opiniones y los restaurantes
