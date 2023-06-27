@@ -38,20 +38,40 @@ El graphql funcional es opiniones-graphql. Para utilizarlo necesitas:
   - Click derecho sobre opniones-graphql, run as... Maven Build. En goal poner jetty:run
   - En el navegador acceder a la URL `http://localhost:8082/graphiql.html`
 
-Pruebas para hacer en graphql:
-    - CreateOpinion:
-       mutation CreateOpinion {
-        create(nombreRecurso: "@pieroti_ig")
-       }
-    - GetOpinion:
-      query GetOpinion{
-        getOpinion(id: "6499d95a40c88a2be04979a8 el id que te haya dado al crearlo anteriormente"){
-          nombreRecurso
-        }
+### Pruebas para hacer en GraphQL
+
+- **CreateOpinion**: 
+    ```graphql
+    mutation CreateOpinion {
+      create(nombreRecurso: "@pieroti_ig")
+    }
+    ```
+- **GetOpinion**:  
+    ```graphql
+    query GetOpinion {
+      getOpinion(id: "6499d95a40c88a2be04979a8") {
+        nombreRecurso
       }
-    - AddValoracion:
-    
-    - RemoveOpinion:
+    }
+    ```
+- **AddValoracion**:  
+    ```graphql
+    mutation AddValoracion
+    {
+        addValoracion(id:"6499d95a40c88a2be04979a8",
+                correoElectronico : "prueba@prueba.com",
+                calificacion: 5,
+                comentario : "Prueba"
+        )
+    }
+    ```
+- **RemoveOpinion**:  
+  ```graphql
+  mutation RemoveOpinion
+  {
+      removeOpinion(id:"649b263c72649c6a7d96c197")
+  }
+  ```
 
 
 
