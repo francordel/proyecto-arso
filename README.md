@@ -9,6 +9,10 @@
 Terminamos con:
 - docker compose down 
 ## Comandos para despliegue en kubernetes
+*Que no se te olvide poner variable de entorno en Opinion-rest/Models/OpinionesRepositorio.cs*
+- docker build -t pasarela:2.0 -f Dockerfile.pasarela .
+- docker build -t opiniones-rest:2.0 ./opiniones-rest/
+- docker build -t restaurantes:2.0 -f Dockerfile.restaurantes .
 - cd k8s/ 
 - kubectl apply -f . 
 - kubectl get all 
